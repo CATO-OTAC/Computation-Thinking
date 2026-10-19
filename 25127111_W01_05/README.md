@@ -3,7 +3,7 @@
 **Course:** Computational Thinking (25C05)  
 **Student ID:** 25127111  
 **Full Name:** Nguyen Bach Thanh Nhan  
-**Class:** [Điền Lớp của bạn, ví dụ: 25C05  
+**Class:** 25C05  
 
 ---
 
