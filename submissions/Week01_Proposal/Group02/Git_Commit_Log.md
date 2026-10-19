@@ -10,24 +10,34 @@
 
 The chronological record of git commits in the project repository across all member branches is documented below:
 
-| Commit Hash | Date | Author (GitHub ID) | Commit Message | Files / Notes |
-| :---: | :---: | :--- | :--- | :--- |
-| `02d4d15` | 2026-10-19 | HwC (Nguyễn Thị Hoàng Châu) | Add files via upload | `AI Usage Declaration.md` |
-| `101ad6e` | 2026-10-19 | nhknhu2509-eng (Nguyễn Huỳnh Khánh Như) | Add AI usage declaration | `AI Usage Declaration.md` |
-| `e86d309` | 2026-10-19 | Nguyễn Bạch Thành Nhân | fix_prepresentation | Update presentation files |
-| `3b111c0` | 2026-10-19 | Nguyễn Bạch Thành Nhân | prepresentation | Add prepresentation notes & slides |
-| `43180f6` | 2026-10-19 | tntthien (Từ Nguyễn Thuận Thiên) | UPLOAD FILE PDF | Add algorithm & abstraction PDF |
-| `f804a99` | 2026-10-19 | CATO-OTAC (Nguyễn Bình An) | Merge branch '25127022_nthchau' into An | Merge Châu's work |
-| `eedbb6b` | 2026-10-19 | CATO-OTAC (Nguyễn Bình An) | Merge branch '25127222_Nhu' into An | Merge Như's work |
-| `5f0dc2c` | 2026-10-19 | CATO-OTAC (Nguyễn Bình An) | Merge branch 'algorithm_design_and_abstraction' into An | Merge Thiên's work |
-| `63519c3` | 2026-10-19 | HwC (Nguyễn Thị Hoàng Châu) | Add files via upload | `xac dinh van de, huong giai quyet.pptx` |
-| `8a7ee71` | 2026-10-19 | HwC (Nguyễn Thị Hoàng Châu) | Add files via upload | `xac dinh van de, huong giai quyet.md` |
-| `8e0a9ae` | 2026-10-19 | nhknhu2509-eng (Nguyễn Huỳnh Khánh Như) | fix report w1 | `report_xdvd,hgq.md` |
-| `5f13309` | 2026-10-19 | nhknhu2509-eng (Nguyễn Huỳnh Khánh Như) | fix ppt w1 | `fix_xdvd,hgq.pptx` |
-| `9b270f6` | 2026-10-19 | Nguyễn Bình An | Merge pull request #1 from CATO-OTAC/An | Merge PR into dev |
-| `db52498` | 2026-10-19 | CATO-OTAC (Nguyễn Bình An) | add group info to README and initialize engineering report template | `README.md`, `Engineering_Report.md` |
-| `79c51f5` | 2026-10-19 | nhknhu2509-eng (Nguyễn Huỳnh Khánh Như) | Add content w1 | `Noidung_Xacdinhvande_Huonggiaiquyet.docx` |
-| `da1b897` | 2026-10-19 | nhknhu2509-eng (Nguyễn Huỳnh Khánh Như) | Add files via upload | `Xacdinhvande-Huonggiaiquyet.pptx` |
-| `a52321f` | 2026-10-19 | tntthien (Từ Nguyễn Thuận Thiên) | Upload AI Usage | Initial AI usage placeholder |
-| `ea9581b` | 2026-10-19 | tntthien (Từ Nguyễn Thuận Thiên) | Add files via upload | `abstraction_algorithmdesign.md` |
-| `f456b72` | 2026-10-19 | CATO-OTAC (Nguyễn Bình An) | setup initial folder structure | Project root & docs folders |
+| Commit Hash | Date | Author (GitHub ID) | Commit Message |
+| :---: | :---: | :--- | :--- |
+| `3143a04` | 2026-10-19 | CATO-OTAC | add weekly proposal submission files |
+| `ccf97e2` | 2026-10-19 | CATO-OTAC | add group presentation pdf |
+| `c8054cc` | 2026-10-19 | CATO-OTAC | update contribution summary and task distribution |
+| `b33c8d2` | 2026-10-19 | CATO-OTAC | update AI usage record |
+| `5b85364` | 2026-10-19 | CATO-OTAC | update engineering report w1 |
+| `02d4d15` | 2026-10-19 | HwC | Add files via upload |
+| `101ad6e` | 2026-10-19 | nhknhu2509-eng | Add AI usage declaration |
+| `e86d309` | 2026-10-19 | Nguyễn Bạch Thành Nhân | fix_prepresentation |
+| `3b111c0` | 2026-10-19 | Nguyễn Bạch Thành Nhân | prepresentation |
+| `43180f6` | 2026-10-19 | tntthien | UPLOAD FILE PDF |
+| `f804a99` | 2026-10-19 | CATO-OTAC | Merge branch '25127022_nthchau' into An |
+| `eedbb6b` | 2026-10-19 | CATO-OTAC | Merge branch '25127222_Nhu' into An |
+| `5f0dc2c` | 2026-10-19 | CATO-OTAC | Merge branch 'algorithm_design_and_abstraction' into An |
+| `63519c3` | 2026-10-19 | HwC | Add files via upload |
+| `8a7ee71` | 2026-10-19 | HwC | Add files via upload |
+| `8e0a9ae` | 2026-10-19 | nhknhu2509-eng | fix report w1 |
+| `5f13309` | 2026-10-19 | nhknhu2509-eng | fix ppt w1 |
+| `9b270f6` | 2026-10-19 | Nguyễn Bình An | Merge pull request #1 from CATO-OTAC/An |
+| `db52498` | 2026-10-19 | CATO-OTAC | add group info to README and initialize engineering report template |
+| `79c51f5` | 2026-10-19 | nhknhu2509-eng | Add content w1 |
+| `da1b897` | 2026-10-19 | nhknhu2509-eng | Add files via upload |
+| `a52321f` | 2026-10-19 | tntthien | Upload AI Usage |
+| `ea9581b` | 2026-10-19 | tntthien | Add files via upload |
+| `f456b72` | 2026-10-19 | CATO-OTAC | setup initial folder structure |
+| `d7aa668` | 2026-10-16 | Nguyễn Bạch Thành Nhân | lab01_update |
+| `f24175a` | 2026-10-16 | Nguyễn Bạch Thành Nhân | W1 |
+| `e9a0bc9` | 2026-10-15 | Nguyễn Bạch Thành Nhân | w01 |
+| `a79999d` | 2026-10-15 | Nguyễn Bạch Thành Nhân | Create 25127111_W01_02.zip |
+| `f90511b` | 2026-10-15 | Nguyễn Bạch Thành Nhân | Initial commit |
