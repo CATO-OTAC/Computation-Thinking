@@ -1,3 +1,13 @@
+* commit d7aa66883d45f1e43ce089a0db42dc6f68a6cfa8
+| Author: Nguyễn Bạch Thành Nhân <nhantino1234@gmail.com>
+| Date:   Fri Oct 16 21:35:32 2026 +0700
+| 
+|     lab01_update
+| 
+|  25127111_W01_05/Git Commit Log.md | 49 +++++++++++++++++++++++++++++++++++++
+|  25127111_W01_05/README.md         | 45 ++++++++++++++++++++++++++++++++++
+|  2 files changed, 94 insertions(+)
+| 
 * commit f24175a99b634c8b4117d97239b6db220dc7b650
 | Author: Nguyễn Bạch Thành Nhân <nhantino1234@gmail.com>
 | Date:   Fri Oct 16 20:55:11 2026 +0700
