@@ -11,9 +11,9 @@
 | No. | Full Name | Student ID | Role in Project | Assigned Tasks for Proposal | Contribution |
 | :---: | :--- | :---: | :--- | :--- | :---: |
 | 1 | **Từ Nguyễn Thuận Thiên** | 25127146 | Developer & Data/API Handler | • Formulated initial Abstraction models (User destination & Places schema).<br>• Designed initial Algorithm workflows (Destination-known and Vibe-based). | 100% |
-| 2 | **Nguyễn Huỳnh Khánh Như** | 25127222 | Team leader & Presenter | • Led team coordination and milestone planning.<br>• Researched real-world pain points and ill-defined problems.<br>• Authored and iterated presentation slides (`fix_xdvd,hgq.pptx`). | 100% |
+| 2 | **Nguyễn Huỳnh Khánh Như** | 25127222 | Team leader & Presenter | • Led team coordination and milestone planning.<br>• Researched real-world pain points and ill-defined problems.<br>• Authored and iterated presentation slides | 100% |
 | 3 | **Nguyễn Thị Hoàng Châu** | 25127022 | Front-end | • Authored real-world problems and proposed assistant solutions.<br>• Co-designed presentation structure and visual assets. | 100% |
-| 4 | **Nguyễn Bạch Thành Nhân** | 25127111 | QA/Tester & Documentation | • Analyzed trade-offs and alternative solutions across all 6 core problems.<br>• Formulated selected overall approach and questions assistant should answer.<br>• Reviewed documentation quality and consistency. | 100% |
+| 4 | **Nguyễn Bạch Thành Nhân** | 25127111 | QA/Tester & Documentation | • Analyzed trade-offs and alternative solutions across all 6 core problems.<br>• Formulated Phase 1 Direction Report (Dataset & Algorithms Direction).<br>• Reviewed documentation quality and consistency. | 100% |
 | 5 | **Nguyễn Bình An** | 23127149 | Developer & Logic Implementer | • Setup repository structure and Git branching workflow.<br>• Integrated and assembled the Engineering Report from individual member inputs.<br>• Authored Decomposition and Pattern Recognition sections. | 100% |
 
 ---
