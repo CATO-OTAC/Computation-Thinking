@@ -1,5 +1,5 @@
 # Travel Planner Assistant
-**Course:** CSC10014 - Computational Thinking (2026)
+**Course:** CSC10014 - Computational Thinking (2026)   
 **Group ID:** Group 02  
 
 
