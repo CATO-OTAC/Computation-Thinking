@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chính sách quyền riêng tư | Travel Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/auth.css?v=7">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%231769e0%22 stroke-width=%222%22><path d=%22m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z%22/><path d=%22m11.1 14.3 3.6-4.4%22/></svg>">
+  <style>
+    .legal-container {
+      max-width: 820px;
+      margin: 40px auto 80px;
+      padding: 48px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(16, 33, 63, 0.06);
+    }
+    .legal-header {
+      margin-bottom: 36px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+    }
+    .legal-header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 8px 0;
+    }
+    .legal-date {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .legal-section {
+      margin-bottom: 28px;
+    }
+    .legal-section h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .legal-section p {
+      font-size: 14.5px;
+      line-height: 1.8;
+      color: #334155;
+      margin-bottom: 10px;
+    }
+    .legal-section ul {
+      margin: 10px 0 14px 22px;
+      color: #334155;
+      font-size: 14.5px;
+      line-height: 1.75;
+    }
+    .legal-section li {
+      margin-bottom: 6px;
+    }
+    .badge-secure {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: #eefbf4;
+      color: #1b633b;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="legal-container">
+    <a href="register.html" class="back-link" onclick="if (history.length > 1) { history.back(); return false; }">
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M16 10H4m0 0 5-5m-5 5 5 5" stroke="currentColor" stroke-width="1.7"/>
+      </svg>
+      Quay lại đăng ký
+    </a>
+
+    <header class="legal-header">
+      <div class="badge-secure">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="m5 10 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Bảo mật dữ liệu chuẩn PBKDF2-SHA256
+      </div>
+      <span class="mini-kicker">CAM KẾT AN TOÀN DỮ LIỆU</span>
+      <h1>Chính sách quyền riêng tư</h1>
+      <p class="legal-date">Hiệu lực từ: Tháng 11/2026 · Phiên bản 1.0 (Travel Planner Assistant)</p>
+    </header>
+
+    <main>
+      <section class="legal-section">
+        <h2>1. Cam kết Bảo vệ Quyền Riêng tư</h2>
+        <p>Tại <strong>Travel Planner Assistant</strong>, chúng tôi tôn trọng và cam kết bảo vệ dữ liệu cá nhân của người dùng. Chính sách này giải thích cách chúng tôi thu thập, xử lý, lưu trữ và bảo vệ thông tin khi bạn sử dụng nền tảng của chúng tôi.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2>2. Dữ liệu Thu thập</h2>
+        <p>Chúng tôi chỉ thu thập các dữ liệu cần thiết phục vụ cho việc vận hành tài khoản và cá nhân hóa lịch trình:</p>
+        <ul>
+          <li><strong>Thông tin tài khoản:</strong> Họ và tên, địa chỉ email, mật khẩu đã được băm mã hóa một chiều (PBKDF2-SHA256 kèm salt ngẫu nhiên).</li>
+          <li><strong>Dữ liệu hành trình:</strong> Điểm đến yêu thích, ngân sách chuyến đi, mốc thời gian du lịch và sở thích cá nhân do bạn chủ động cung cấp.</li>
+          <li><strong>Dữ liệu kỹ thuật:</strong> Session token, thời gian đăng nhập phục vụ duy trì phiên làm việc an toàn.</li>
+        </ul>
+      </section>
+
+      <section class="legal-section">
+        <h2>3. Mục đích Sử dụng Thông tin</h2>
+        <p>Thông tin của bạn được sử dụng cho các mục đích cụ thể sau:</p>
+        <ul>
+          <li>Xác thực danh tính, duy trì phiên đăng nhập và bảo vệ tài khoản khỏi truy cập trái phép.</li>
+          <li>Chạy các thuật toán gợi ý tối ưu lịch trình (tính toán chi phí, thời gian di chuyển, tối ưu POI).</li>
+          <li>Hỗ trợ phục hồi mật khẩu và liên hệ khi có cảnh báo quan trọng liên quan đến tài khoản.</li>
+        </ul>
+      </section>
+
+      <section class="legal-section">
+        <h2>4. Nguyên tắc Không Chia sẻ Dữ liệu</h2>
+        <p>Chúng tôi cam kết <strong>không bao giờ bán, cho thuê hoặc tiết lộ</strong> thông tin cá nhân của bạn cho bất kỳ bên thứ ba nào vì mục đích thương mại hoặc quảng cáo.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2>5. Lưu trữ và Bảo mật An toàn</h2>
+        <p>Hệ thống áp dụng các biện pháp an ninh hàng đầu:</p>
+        <ul>
+          <li>Mật khẩu người dùng không bao giờ được lưu trữ dưới dạng văn bản thuần (plaintext), luôn được băm với thuật toán an toàn PBKDF2.</li>
+          <li>Session token ngẫu nhiên độ dài cao (32 bytes entropy), có thời hạn tự động hết hạn và có thể hủy bỏ khi đăng xuất.</li>
+          <li>Toàn bộ dữ liệu trao đổi qua API được truyền tải an toàn.</li>
+        </ul>
+      </section>
+
+      <section class="legal-section">
+        <h2>6. Quyền của Người dùng</h2>
+        <p>Bạn luôn có quyền kiểm soát thông tin cá nhân của mình:</p>
+        <ul>
+          <li>Quyền truy cập và xem thông tin cá nhân thông qua trang Bảng điều khiển (Dashboard).</li>
+          <li>Quyền cập nhật, đổi mật khẩu mới bất cứ lúc nào.</li>
+          <li>Quyền yêu cầu xóa bỏ tài khoản và toàn bộ dữ liệu lịch trình đã tạo.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+      <a href="terms.html" class="text-link">← Xem Điều khoản sử dụng</a>
+      <a href="register.html" class="primary-button" style="width: auto; padding: 0 24px;" onclick="if (history.length > 1) { history.back(); return false; }">Quay lại đăng ký</a>
+    </footer>
+  </div>
+</body>
+</html>
+

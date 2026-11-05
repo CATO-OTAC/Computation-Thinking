@@ -68,6 +68,9 @@ dist/
 .env.*.local
 *.pem
 *.key
+src/backend/data/*.json
+!src/backend/data/*.example.json
+!src/backend/data/.gitkeep
 
 # ==========================================
 # Microsoft Office & Temporary Files
