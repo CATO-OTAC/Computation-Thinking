@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("USER") // "USER" | "MANAGER"
+  preferences  String   @default("{}")
+  createdAt    DateTime @default(now())
+
+  trips              Trip[]
+  reviews            Review[]
+  recommendationLogs RecommendationLog[]
+}
+
+model POI {
+  id                   String   @id @default(cuid())
+  name                 String
+  city                 String   // "DA_LAT" | "NHA_TRANG"
+  description          String
+  lat                  Float
+  lng                  Float
+  category             String   // "SIGHTSEEING" | "DINING" | "LODGING" | "ADVENTURE" | "RELAX"
+  tags                 String   // JSON string array of vibe tags
+  estimatedCostVnd     Int
+  avgDurationMins      Int
+  openTime             String   // "HH:mm"
+  closeTime            String   // "HH:mm"
+  weatherSensitivity   String   // "INDOOR" | "OUTDOOR"
+  terrainType          String   // "HIGHLAND" | "COASTAL" | "ISLAND" | "URBAN"
+  wheelchairAccessible Boolean  @default(false)
+  vegetarianFriendly   Boolean  @default(false)
+  avgRating            Float    @default(4.5)
+  reviewCount          Int      @default(0)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  itineraryItems ItineraryItem[]
+  reviews        Review[]
+}
+
+model Trip {
+  id                    String   @id @default(cuid())
+  userId                String
+  title                 String
+  destinationMode       String   // "DA_LAT" | "NHA_TRANG" | "BOTH"
+  startDate             String
+  endDate               String
+  durationDays          Int
+  groupSize             Int
+  budgetMaxVnd          Int
+  projectedTotalVnd     Int
+  selectedVibes         String   // JSON string array
+  requirements          String   // JSON object
+  status                String   @default("SAVED") // "SAVED" | "COMPLETED"
+  isPublicCommunity     Boolean  @default(true)
+  cloneCount            Int      @default(0)
+  avgRating             Float    @default(0)
+  reviewCount           Int      @default(0)
+  algorithmInsightsJson String   @default("{}")
+  advisoryJson          String   @default("{}")
+  createdAt             DateTime @default(now())
+
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itineraryItems     ItineraryItem[]
+  budgetBreakdowns   BudgetBreakdown[]
+  reviews            Review[]
+  recommendationLogs RecommendationLog[]
+}
+
+model ItineraryItem {
+  id               String  @id @default(cuid())
+  tripId           String
+  dayNumber        Int
+  city             String  // "DA_LAT" | "NHA_TRANG" | "INTER_CITY"
+  clusterId        Int
+  poiId            String?
+  itemType         String  // "POI" | "MEAL" | "LODGING" | "TRANSFER"
+  title            String
+  startTime        String  // "HH:mm"
+  endTime          String  // "HH:mm"
+  travelTimeMins   Int     @default(0)
+  distanceKm       Float   @default(0)
+  estimatedCostVnd Int
+  jaccardScore     Float   @default(0)
+  matchReason      String  @default("")
+  orderIndex       Int
+  isBackupIndoor   Boolean @default(false)
+  backupPoiId      String?
+  backupTitle      String?
+  backupStartTime  String?
+  backupEndTime    String?
+  backupCostVnd    Int?
+
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  poi  POI? @relation(fields: [poiId], references: [id], onDelete: SetNull)
+}
+
+model BudgetBreakdown {
+  id                 String @id @default(cuid())
+  tripId             String
+  category           String // "TRANSPORTATION" | "ACCOMMODATION" | "DINING" | "SIGHTSEEING" | "CONTINGENCIES"
+  allocatedVnd       Int
+  projectedVnd       Int
+  dailyBreakdownJson String // JSON array [{ day, amountVnd }]
+
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  tripId      String
+  poiId       String?
+  userId      String
+  rating      Int      // 1-5
+  comment     String
+  aspectLabel String   @default("OVERALL") // "OVERALL" | "POI" | "DINING" | "LODGING"
+  sentiment   String   @default("POSITIVE") // "POSITIVE" | "NEUTRAL" | "NEGATIVE"
+  createdAt   DateTime @default(now())
+
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  poi  POI? @relation(fields: [poiId], references: [id], onDelete: SetNull)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model RecommendationLog {
+  id                String   @id @default(cuid())
+  tripId            String
+  userId            String
+  destinationMode   String
+  budgetMaxVnd      Int
+  projectedTotalVnd Int
+  topJaccardJson    String
+  distanceSavedKm   Float
+  executionTimeMs   Int
+  createdAt         DateTime @default(now())
+
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
