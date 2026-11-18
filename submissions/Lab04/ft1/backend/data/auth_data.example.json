@@ -1,0 +1,7 @@
+{
+  "_comment": "Tệp mẫu định dạng lưu trữ Auth. Tệp auth_data.json thực tế được bỏ qua khỏi Git để bảo vệ dữ liệu người dùng.",
+  "users": [],
+  "sessions": [],
+  "reset_tokens": []
+}
+
