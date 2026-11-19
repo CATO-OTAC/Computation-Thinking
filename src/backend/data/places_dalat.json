@@ -1,0 +1,586 @@
+[
+  {
+    "stt": 1,
+    "name": "Dalat Wonder Resort",
+    "type": "Accommodation",
+    "area": "Tuyen Lam",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Relaxation",
+      "Luxury",
+      "Nature",
+      "Romantic"
+    ],
+    "avg_price": 1200000,
+    "open_time": "00:00",
+    "close_time": "23:59",
+    "rating": 4.5,
+    "lat": 11.8973,
+    "lng": 108.4168,
+    "new_address": "Hoa Hồng, Phường 4, Hồ Tuyền Lâm, Đà Lạt",
+    "link": "https://maps.google.com/?q=Dalat+Wonder+Resort"
+  },
+  {
+    "stt": 2,
+    "name": "Khách Sạn Mường Thanh Holiday Đà Lạt",
+    "type": "Accommodation",
+    "area": "City Center",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Luxury",
+      "Comfort",
+      "Sightseeing"
+    ],
+    "avg_price": 850000,
+    "open_time": "00:00",
+    "close_time": "23:59",
+    "rating": 4.4,
+    "lat": 11.9429,
+    "lng": 108.4418,
+    "new_address": "42 Đường Phan Bội Châu, Phường 1, Đà Lạt",
+    "link": "https://maps.google.com/?q=Muong+Thanh+Dalat"
+  },
+  {
+    "stt": 3,
+    "name": "Khách Sạn Phố Núi Đà Lạt",
+    "type": "Accommodation",
+    "area": "City Center",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Budget_Friendly",
+      "Sightseeing",
+      "Chill"
+    ],
+    "avg_price": 450000,
+    "open_time": "00:00",
+    "close_time": "23:59",
+    "rating": 4.2,
+    "lat": 11.9392,
+    "lng": 108.4375,
+    "new_address": "46 Đường Nguyễn Chí Thanh, Phường 1, Đà Lạt",
+    "link": "https://maps.google.com/?q=Pho+Nui+Hotel+Dalat"
+  },
+  {
+    "stt": 4,
+    "name": "Homestay Nhà Của Gió",
+    "type": "Accommodation",
+    "area": "Cau Dat / Trai Mat",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Chill",
+      "Nature",
+      "Romantic",
+      "Budget_Friendly"
+    ],
+    "avg_price": 350000,
+    "open_time": "00:00",
+    "close_time": "23:59",
+    "rating": 4.6,
+    "lat": 11.9388,
+    "lng": 108.4901,
+    "new_address": "Hẻm 66 Hùng Vương, Trại Mát, Đà Lạt",
+    "link": "https://maps.google.com/?q=Nha+Cua+Gio+Homestay+Dalat"
+  },
+  {
+    "stt": 5,
+    "name": "Quảng Trường Lâm Viên & Nụ Hoa Atiso",
+    "type": "Attraction",
+    "area": "City Center",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Trending",
+      "Photography",
+      "Sightseeing"
+    ],
+    "avg_price": 0,
+    "open_time": "06:00",
+    "close_time": "23:00",
+    "rating": 4.6,
+    "lat": 11.9382,
+    "lng": 108.4448,
+    "new_address": "Trần Quốc Toản, Phường 10, Đà Lạt",
+    "link": "https://maps.google.com/?q=Quảng+Trường+Lâm+Viên+Đà+Lạt"
+  },
+  {
+    "stt": 6,
+    "name": "Ga Đà Lạt (Di Tích Lịch Sử)",
+    "type": "Attraction",
+    "area": "City Center",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Cultural",
+      "Photography",
+      "Sightseeing"
+    ],
+    "avg_price": 10000,
+    "open_time": "07:00",
+    "close_time": "17:30",
+    "rating": 4.4,
+    "lat": 11.9416,
+    "lng": 108.4551,
+    "new_address": "1 Đường Quang Trung, Phường 10, Đà Lạt",
+    "link": "https://maps.google.com/?q=Ga+Đà+Lạt"
+  },
+  {
+    "stt": 7,
+    "name": "Dinh III Bảo Đại (Biệt Điện Mùa Hè)",
+    "type": "Attraction",
+    "area": "City Center",
+    "weather_suitability": "Indoor",
+    "vibes": [
+      "Cultural",
+      "Sightseeing",
+      "Photography"
+    ],
+    "avg_price": 40000,
+    "open_time": "07:30",
+    "close_time": "17:00",
+    "rating": 4.3,
+    "lat": 11.9304,
+    "lng": 108.4299,
+    "new_address": "1 Đường Triệu Việt Vương, Phường 4, Đà Lạt",
+    "link": "https://maps.google.com/?q=Dinh+3+Bảo+Đại+Đà+Lạt"
+  },
+  {
+    "stt": 8,
+    "name": "Bảo Tàng Lâm Đồng & Cung Nam Phương",
+    "type": "Attraction",
+    "area": "City Center",
+    "weather_suitability": "Indoor",
+    "vibes": [
+      "Cultural",
+      "Sightseeing",
+      "Chill"
+    ],
+    "avg_price": 30000,
+    "open_time": "07:30",
+    "close_time": "17:00",
+    "rating": 4.3,
+    "lat": 11.9366,
+    "lng": 108.4633,
+    "new_address": "4 Đường Hùng Vương, Phường 10, Đà Lạt",
+    "link": "https://maps.google.com/?q=Bảo+Tàng+Lâm+Đồng"
+  },
+  {
+    "stt": 9,
+    "name": "Vườn Hoa Thành Phố Đà Lạt",
+    "type": "Attraction",
+    "area": "City Center",
+    "weather_suitability": "Outdoor",
+    "vibes": [
+      "Nature",
+      "Sightseeing",
+      "Photography"
+    ],
+    "avg_price": 100000,
+    "open_time": "07:00",
+    "close_time": "18:00",
+    "rating": 4.2,
+    "lat": 11.9507,
+    "lng": 108.4519,
+    "new_address": "Đường Trần Nhân Tông, Phường 8, Đà Lạt",
+    "link": "https://maps.google.com/?q=Vườn+Hoa+Thành+Phố+Đà+Lạt"
+  },
+  {
+    "stt": 10,
+    "name": "Chợ Đêm Đà Lạt (Chợ Âm Phủ)",
+    "type": "Attraction",
+    "area": "City Center",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Local_Food",
+      "Culinary",
+      "Trending",
+      "Sightseeing"
+    ],
+    "avg_price": 0,
+    "open_time": "17:00",
+    "close_time": "23:30",
+    "rating": 4.3,
+    "lat": 11.9424,
+    "lng": 108.4371,
+    "new_address": "Đường Nguyễn Thị Minh Khai, Phường 1, Đà Lạt",
+    "link": "https://maps.google.com/?q=Chợ+Đêm+Đà+Lạt"
+  },
+  {
+    "stt": 11,
+    "name": "Biệt Thự Hằng Nga (Crazy House)",
+    "type": "Attraction",
+    "area": "City Center",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Trending",
+      "Photography",
+      "Adventure"
+    ],
+    "avg_price": 80000,
+    "open_time": "08:30",
+    "close_time": "19:00",
+    "rating": 4.4,
+    "lat": 11.9348,
+    "lng": 108.4309,
+    "new_address": "3 Đường Huỳnh Thúc Kháng, Phường 4, Đà Lạt",
+    "link": "https://maps.google.com/?q=Crazy+House+Dalat"
+  },
+  {
+    "stt": 12,
+    "name": "Thiền Viện Trúc Lâm Đà Lạt",
+    "type": "Attraction",
+    "area": "Tuyen Lam",
+    "weather_suitability": "Outdoor",
+    "vibes": [
+      "Cultural",
+      "Relaxation",
+      "Nature"
+    ],
+    "avg_price": 0,
+    "open_time": "07:00",
+    "close_time": "17:00",
+    "rating": 4.6,
+    "lat": 11.9044,
+    "lng": 108.4357,
+    "new_address": "Đường Trúc Lâm Yên Tử, Phường 3, Đà Lạt",
+    "link": "https://maps.google.com/?q=Thuyền+Viện+Trúc+Lâm+Đà+Lạt"
+  },
+  {
+    "stt": 13,
+    "name": "Hồ Tuyền Lâm & Bến Thuyền Kayak",
+    "type": "Attraction",
+    "area": "Tuyen Lam",
+    "weather_suitability": "Outdoor",
+    "vibes": [
+      "Nature",
+      "Relaxation",
+      "Adventure",
+      "Romantic"
+    ],
+    "avg_price": 50000,
+    "open_time": "07:00",
+    "close_time": "17:30",
+    "rating": 4.7,
+    "lat": 11.8988,
+    "lng": 108.4274,
+    "new_address": "Khu du lịch Hồ Tuyền Lâm, Phường 4, Đà Lạt",
+    "link": "https://maps.google.com/?q=Hồ+Tuyền+Lâm+Đà+Lạt"
+  },
+  {
+    "stt": 14,
+    "name": "Đường Hầm Điêu Khắc (Đất Sét)",
+    "type": "Attraction",
+    "area": "Tuyen Lam",
+    "weather_suitability": "Outdoor",
+    "vibes": [
+      "Photography",
+      "Sightseeing",
+      "Trending"
+    ],
+    "avg_price": 90000,
+    "open_time": "07:30",
+    "close_time": "17:00",
+    "rating": 4.2,
+    "lat": 11.8841,
+    "lng": 108.4116,
+    "new_address": "Khu du lịch Hồ Tuyền Lâm, Phường 4, Đà Lạt",
+    "link": "https://maps.google.com/?q=Đường+Hầm+Điêu+Khắc+Đà+Lạt"
+  },
+  {
+    "stt": 15,
+    "name": "Khu Du Lịch Thác Datanla & Máng Trượt",
+    "type": "Attraction",
+    "area": "Tuyen Lam",
+    "weather_suitability": "Outdoor",
+    "vibes": [
+      "Adventure",
+      "Nature",
+      "Trending"
+    ],
+    "avg_price": 220000,
+    "open_time": "07:00",
+    "close_time": "17:00",
+    "rating": 4.5,
+    "lat": 11.9029,
+    "lng": 108.4478,
+    "new_address": "Quốc lộ 20 Đèo Prenn, Phường 3, Đà Lạt",
+    "link": "https://maps.google.com/?q=Thác+Datanla+Đà+Lạt"
+  },
+  {
+    "stt": 16,
+    "name": "Đồi Chè Cầu Đất & Tuabin Gió",
+    "type": "Attraction",
+    "area": "Cau Dat / Trai Mat",
+    "weather_suitability": "Outdoor",
+    "vibes": [
+      "Nature",
+      "View_Hunting",
+      "Photography",
+      "Chill"
+    ],
+    "avg_price": 0,
+    "open_time": "06:00",
+    "close_time": "17:30",
+    "rating": 4.6,
+    "lat": 11.8549,
+    "lng": 108.5638,
+    "new_address": "Thôn Cầu Đất, Xã Xuân Trường, Đà Lạt",
+    "link": "https://maps.google.com/?q=Đồi+Chè+Cầu+Đất"
+  },
+  {
+    "stt": 17,
+    "name": "Thiên Đường Săn Mây Cầu Đất Panorama",
+    "type": "Attraction",
+    "area": "Cau Dat / Trai Mat",
+    "weather_suitability": "Outdoor",
+    "vibes": [
+      "View_Hunting",
+      "Nature",
+      "Photography",
+      "Trending"
+    ],
+    "avg_price": 120000,
+    "open_time": "04:30",
+    "close_time": "18:00",
+    "rating": 4.7,
+    "lat": 11.8488,
+    "lng": 108.5712,
+    "new_address": "Đồi Chè Cầu Đất, Xã Xuân Trường, Đà Lạt",
+    "link": "https://maps.google.com/?q=Săn+Mây+Cầu+Đất"
+  },
+  {
+    "stt": 18,
+    "name": "Chùa Linh Phước (Chùa Ve Chai)",
+    "type": "Attraction",
+    "area": "Cau Dat / Trai Mat",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Cultural",
+      "Sightseeing",
+      "Photography"
+    ],
+    "avg_price": 0,
+    "open_time": "07:30",
+    "close_time": "17:00",
+    "rating": 4.6,
+    "lat": 11.9443,
+    "lng": 108.4988,
+    "new_address": "120 Tự Phước, Trại Mát, Phường 11, Đà Lạt",
+    "link": "https://maps.google.com/?q=Chùa+Linh+Phước"
+  },
+  {
+    "stt": 19,
+    "name": "Bảo Tàng Tranh 3D World Đà Lạt",
+    "type": "Attraction",
+    "area": "City Center",
+    "weather_suitability": "Indoor",
+    "vibes": [
+      "Photography",
+      "Trending",
+      "Sightseeing"
+    ],
+    "avg_price": 90000,
+    "open_time": "08:00",
+    "close_time": "18:00",
+    "rating": 4.3,
+    "lat": 11.9351,
+    "lng": 108.4412,
+    "new_address": "Số 78 Lê Thị Hồng Gấm, Phường 1, Đà Lạt",
+    "link": "https://maps.google.com/?q=Bảo+Tàng+Tranh+3D+Đà+Lạt"
+  },
+  {
+    "stt": 20,
+    "name": "Phòng Trưng Bày Hoa Khô Rừng Hoa Đà Lạt",
+    "type": "Attraction",
+    "area": "City Center",
+    "weather_suitability": "Indoor",
+    "vibes": [
+      "Sightseeing",
+      "Relaxation",
+      "Photography"
+    ],
+    "avg_price": 50000,
+    "open_time": "07:30",
+    "close_time": "17:00",
+    "rating": 4.2,
+    "lat": 11.9723,
+    "lng": 108.4491,
+    "new_address": "7A/1 Mai Anh Đào, Phường 8, Đà Lạt",
+    "link": "https://maps.google.com/?q=Rừng+Hoa+Đà+Lạt"
+  },
+  {
+    "stt": 21,
+    "name": "Tiệm Cà Phê Túi Mơ To",
+    "type": "Café",
+    "area": "Cau Dat / Trai Mat",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Chill",
+      "View_Hunting",
+      "Trending",
+      "Photography"
+    ],
+    "avg_price": 70000,
+    "open_time": "07:00",
+    "close_time": "21:30",
+    "rating": 4.6,
+    "lat": 11.9472,
+    "lng": 108.4795,
+    "new_address": "Hẻm 31 Sào Nam, Phường 11, Đà Lạt",
+    "link": "https://maps.google.com/?q=Túi+Mơ+To+Đà+Lạt"
+  },
+  {
+    "stt": 22,
+    "name": "An Café (Quán Cafe Cổ Điển Trong Nhà)",
+    "type": "Café",
+    "area": "City Center",
+    "weather_suitability": "Indoor",
+    "vibes": [
+      "Chill",
+      "Nature",
+      "Relaxation"
+    ],
+    "avg_price": 55000,
+    "open_time": "06:30",
+    "close_time": "21:30",
+    "rating": 4.5,
+    "lat": 11.9395,
+    "lng": 108.4358,
+    "new_address": "63Bis Đường 3 Tháng 2, Phường 1, Đà Lạt",
+    "link": "https://maps.google.com/?q=An+Cafe+Dalat"
+  },
+  {
+    "stt": 23,
+    "name": "The Choco - Ga Đà Lạt",
+    "type": "Café",
+    "area": "City Center",
+    "weather_suitability": "Indoor",
+    "vibes": [
+      "Culinary",
+      "Chill",
+      "Cultural"
+    ],
+    "avg_price": 55000,
+    "open_time": "07:30",
+    "close_time": "21:00",
+    "rating": 4.5,
+    "lat": 11.9419,
+    "lng": 108.4556,
+    "new_address": "1 Đường Quang Trung (Trong Ga), Phường 10, Đà Lạt",
+    "link": "https://maps.google.com/?q=The+Choco+Ga+Đà+Lạt"
+  },
+  {
+    "stt": 24,
+    "name": "Horizon Coffee Đà Lạt (Ngắm Rừng Thông)",
+    "type": "Café",
+    "area": "Tuyen Lam",
+    "weather_suitability": "Both",
+    "vibes": [
+      "View_Hunting",
+      "Chill",
+      "Romantic"
+    ],
+    "avg_price": 65000,
+    "open_time": "06:00",
+    "close_time": "21:30",
+    "rating": 4.4,
+    "lat": 11.9215,
+    "lng": 108.4412,
+    "new_address": "31/6 Đường 3 Tháng 4, Phường 3, Đà Lạt",
+    "link": "https://maps.google.com/?q=Horizon+Coffee+Dalat"
+  },
+  {
+    "stt": 25,
+    "name": "Bánh Mì Xíu Mại Ri 79",
+    "type": "Restaurant",
+    "area": "City Center",
+    "weather_suitability": "Both",
+    "vibes": [
+      "Culinary",
+      "Local_Food",
+      "Budget_Friendly"
+    ],
+    "avg_price": 35000,
+    "open_time": "06:00",
+    "close_time": "20:00",
+    "rating": 4.4,
+    "lat": 11.9461,
+    "lng": 108.4352,
+    "new_address": "1 Đường Thông Thiên Học, Phường 2, Đà Lạt",
+    "link": "https://maps.google.com/?q=Bánh+Mì+Xíu+Mại+Ri+79"
+  },
+  {
+    "stt": 26,
+    "name": "Lẩu Gà Lá É Tao Ngộ (Gốc 3/4)",
+    "type": "Restaurant",
+    "area": "City Center",
+    "weather_suitability": "Indoor",
+    "vibes": [
+      "Culinary",
+      "Local_Food"
+    ],
+    "avg_price": 150000,
+    "open_time": "08:00",
+    "close_time": "22:00",
+    "rating": 4.3,
+    "lat": 11.9328,
+    "lng": 108.4431,
+    "new_address": "Số 5 Đường 3 Tháng 4, Phường 3, Đà Lạt",
+    "link": "https://maps.google.com/?q=Lẩu+Gà+Lá+É+Tao+Ngộ"
+  },
+  {
+    "stt": 27,
+    "name": "Nem Nướng Bà Hùng",
+    "type": "Restaurant",
+    "area": "City Center",
+    "weather_suitability": "Indoor",
+    "vibes": [
+      "Culinary",
+      "Local_Food"
+    ],
+    "avg_price": 60000,
+    "open_time": "09:00",
+    "close_time": "21:00",
+    "rating": 4.3,
+    "lat": 11.9412,
+    "lng": 108.4285,
+    "new_address": "328 Đường Phan Đình Phùng, Phường 2, Đà Lạt",
+    "link": "https://maps.google.com/?q=Nem+Nướng+Bà+Hùng"
+  },
+  {
+    "stt": 28,
+    "name": "Lẩu Bò Ba Toa Nhà Gỗ",
+    "type": "Restaurant",
+    "area": "City Center",
+    "weather_suitability": "Indoor",
+    "vibes": [
+      "Culinary",
+      "Local_Food"
+    ],
+    "avg_price": 160000,
+    "open_time": "10:00",
+    "close_time": "22:00",
+    "rating": 4.4,
+    "lat": 11.9388,
+    "lng": 108.4312,
+    "new_address": "1/29 Hoàng Diệu, Phường 5, Đà Lạt",
+    "link": "https://maps.google.com/?q=Lẩu+Bò+Ba+Toa+Nhà+Gỗ"
+  },
+  {
+    "stt": 29,
+    "name": "Nhà Hàng Cơm Niêu Như Ngọc",
+    "type": "Restaurant",
+    "area": "City Center",
+    "weather_suitability": "Indoor",
+    "vibes": [
+      "Culinary",
+      "Family",
+      "Relaxation"
+    ],
+    "avg_price": 140000,
+    "open_time": "10:00",
+    "close_time": "21:30",
+    "rating": 4.2,
+    "lat": 11.9398,
+    "lng": 108.4419,
+    "new_address": "19/1 Hồ Tùng Mậu, Phường 3, Đà Lạt",
+    "link": "https://maps.google.com/?q=Cơm+Niêu+Như+Ngọc+Đà+Lạt"
+  }
+]

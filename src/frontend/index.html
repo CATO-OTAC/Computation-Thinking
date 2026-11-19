@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Planner | Lập Lịch Trình Du Lịch Thông Minh</title>
+  
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%230284c7%22 stroke-width=%222%22><path d=%22m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z%22/><path d=%22m11.1 14.3 3.6-4.4%22/></svg>">
+  
+  <style>
+    /* Full-width Page Wrapper */
+    .page-wrapper {
+      width: 100%;
+      max-width: none;
+      padding: 32px 28px 64px;
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .page-wrapper {
+        padding: 20px 16px 48px;
+      }
+    }
+
+    /* Hero Section: 2 Columns on Desktop */
+    .hero-layout-2col {
+      display: grid;
+      grid-template-columns: 1.05fr 1.15fr;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 64px;
+      width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-layout-2col {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--brand-50);
+      color: var(--brand-700);
+      border: 1px solid var(--brand-200);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.8px;
+      color: var(--slate-900);
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 28px;
+      }
+    }
+
+    .hero-title span {
+      color: var(--brand-600);
+    }
+
+    .hero-subtitle {
+      font-size: 16.5px;
+      color: var(--slate-600);
+      margin-bottom: 28px;
+      line-height: 1.6;
+      max-width: 600px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    /* Trust Metrics Strip (Left Column) */
+    .trust-metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .trust-metric-item {
+      text-align: center;
+    }
+
+    .trust-metric-item:not(:last-child) {
+      border-right: 1px solid var(--border-light);
+    }
+
+    @media (max-width: 600px) {
+      .trust-metrics-strip {
+        grid-template-columns: 1fr;
+      }
+      .trust-metric-item:not(:last-child) {
+        border-right: none;
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 12px;
+      }
+    }
+
+    .trust-metric-number {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--brand-600);
+      display: block;
+      line-height: 1.2;
+    }
+
+    .trust-metric-label {
+      font-size: 12px;
+      color: var(--slate-600);
+      font-weight: 600;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    /* Product Preview Showcase (Right Column) */
+    .preview-showcase {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .preview-header-bar {
+      background: var(--slate-100);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .preview-window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .preview-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--slate-300);
+    }
+
+    .preview-body-content {
+      padding: 24px;
+    }
+
+    .preview-stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 640px) {
+      .preview-stat-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .preview-stat-card {
+      background: var(--slate-50);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+
+    .preview-stat-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--slate-500);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .preview-stat-value {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--slate-900);
+    }
+
+    .preview-timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .preview-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: var(--radius-lg);
+      background: var(--slate-50);
+      border: 1px solid var(--border-light);
+      gap: 12px;
+    }
+
+    .preview-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .preview-order-pill {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--brand-50);
+      color: var(--brand-700);
+      font-weight: 800;
+      font-size: 12px;
+      display: grid;
+      place-items: center;
+      border: 1.5px solid var(--brand-200);
+      flex-shrink: 0;
+    }
+
+    .preview-item-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--slate-900);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .preview-item-sub {
+      font-size: 12px;
+      color: var(--slate-500);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Content Sections (Full width, grid items expand) */
+    .section-wrap {
+      width: 100%;
+      margin: 0 0 64px 0;
+    }
+
+    .section-header {
+      margin-bottom: 32px;
+      max-width: 720px;
+    }
+
+    .section-kicker {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand-600);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .section-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--slate-900);
+      letter-spacing: -0.4px;
+      margin-bottom: 8px;
+    }
+
+    .section-desc {
+      font-size: 14.5px;
+      color: var(--slate-600);
+      line-height: 1.6;
+    }
+
+    /* Feature Grid (Expands to fill 100% width) */
+    .feature-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+    }
+
+    @media (max-width: 960px) {
+      .feature-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .feature-grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-xs);
+      transition: all var(--transition-fast);
+      min-width: 0;
+    }
+
+    .feature-card:hover {
+      box-shadow: var(--shadow-sm);
+      border-color: var(--brand-300);
+    }
+
+    .feature-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-lg);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+      background: var(--brand-50);
+      color: var(--brand-600);
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 6px;
+    }
+
+    .feature-card p {
+      font-size: 13.5px;
+      color: var(--slate-600);
+      line-height: 1.5;
+    }
+
+    /* Pillars of Computational Thinking */
+    .pillars-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+      .pillars-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 540px) {
+      .pillars-grid-4 { grid-template-columns: 1fr; }
+    }
+
+    .pillar-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 20px 18px;
+      min-width: 0;
+    }
+
+    .pillar-card h4 {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 6px;
+    }
+
+    .pillar-card p {
+      font-size: 12.5px;
+      color: var(--slate-600);
+      line-height: 1.5;
+    }
+
+    /* CTA Card */
+    .cta-card {
+      background: var(--brand-900);
+      color: #fff;
+      border-radius: var(--radius-2xl);
+      padding: 44px 32px;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .cta-card h2 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .cta-card p {
+      color: var(--slate-300);
+      font-size: 15px;
+      max-width: 560px;
+      margin: 0 auto 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIFIED APP NAVBAR -->
+  <header class="app-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon-box" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z"/>
+            <path d="m11.1 14.3 3.6-4.4"/>
+          </svg>
+        </div>
+        <span>Travel Planner</span>
+      </a>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="nav-toggle-btn" aria-label="Mở menu điều hướng" aria-expanded="false" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Nav Links -->
+      <nav class="nav-links-wrap" aria-label="Điều hướng chính">
+        <a href="planner.html" class="nav-item" data-nav="planner">Lập lịch trình</a>
+        <a href="survey.html" class="nav-item" data-nav="survey">Đánh giá</a>
+        <a href="manager.html" id="nav-manager-link" class="nav-item" data-nav="manager" style="display:none;">Quản lý địa điểm</a>
+        <a href="dashboard.html" id="nav-user-badge" class="user-badge-pill" style="display:none;" title="Tài khoản">
+          <span aria-hidden="true">👤</span>
+          <span id="nav-username" class="user-name-text">Tài khoản</span>
+        </a>
+        <a href="login.html" id="nav-auth-link" class="btn btn-primary btn-sm">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrapper animate-fade-in">
+    <!-- HERO SECTION: 2-COLUMN LAYOUT ON DESKTOP -->
+    <section class="hero-layout-2col">
+      <!-- LEFT COLUMN: TITLE, INTRO, ACTIONS & METRICS -->
+      <div>
+        <div class="hero-badge">
+          Hệ thống hỗ trợ du lịch thông minh
+        </div>
+        
+        <h1 class="hero-title">
+          Lên kế hoạch chuyến đi tối ưu<br>
+          <span>ngân sách, thời gian và lộ trình</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Tự động phân bổ ngân sách 5 nhóm có kiểm soát trần chi phí, gom cụm địa điểm theo khu vực để tiết kiệm thời gian di chuyển và linh hoạt thích ứng khi thời tiết thay đổi.
+        </p>
+
+        <div class="hero-actions">
+          <a href="planner.html" class="btn btn-primary btn-lg">
+            Lập lịch trình
+          </a>
+          <a href="planner.html?demo=true" class="btn btn-secondary btn-lg" onclick="sessionStorage.setItem('trigger_demo', '1');">
+            Xem lịch trình mẫu
+          </a>
+        </div>
+
+        <!-- LIVE TRUST METRICS STRIP -->
+        <div class="trust-metrics-strip">
+          <div class="trust-metric-item">
+            <span class="trust-metric-number">100%</span>
+            <span class="trust-metric-label">Tuân thủ ngân sách tối đa</span>
+          </div>
+          <div class="trust-metric-item">
+            <span class="trust-metric-number">Gom cụm</span>
+            <span class="trust-metric-label">Tối ưu lộ trình theo khu vực</span>
+          </div>
+          <div class="trust-metric-item">
+            <span class="trust-metric-number">64</span>
+            <span class="trust-metric-label">Địa điểm tuyển chọn tại Đà Lạt & Nha Trang</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: PRODUCT PREVIEW SHOWCASE -->
+      <div>
+        <div class="preview-showcase" aria-label="Bản xem trước lịch trình thực tế">
+          <div class="preview-header-bar">
+            <div class="preview-window-dots" aria-hidden="true">
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+            </div>
+            <span style="font-size:12.5px; font-weight:700; color:var(--slate-700);">Lịch trình mẫu: Đà Lạt 3 ngày 2 đêm</span>
+            <span style="font-size:11.5px; color:#059669; font-weight:700; background:#ecfdf5; padding:2px 8px; border-radius:var(--radius-full);">✓ Đã tối ưu</span>
+          </div>
+
+          <div class="preview-body-content">
+            <div class="preview-stat-row">
+              <div class="preview-stat-card">
+                <span class="preview-stat-title">Ngân sách tối đa</span>
+                <span class="preview-stat-value">8.000.000 ₫</span>
+              </div>
+              <div class="preview-stat-card">
+                <span class="preview-stat-title">Chi phí dự kiến</span>
+                <span class="preview-stat-value" style="color:var(--brand-600);">7.250.000 ₫</span>
+              </div>
+              <div class="preview-stat-card">
+                <span class="preview-stat-title">Quỹ dự phòng</span>
+                <span class="preview-stat-value" style="color:#059669;">750.000 ₫</span>
+              </div>
+              <div class="preview-stat-card">
+                <span class="preview-stat-title">Tổng quãng đường</span>
+                <span class="preview-stat-value" style="color:#6d28d9;">26,4 km</span>
+              </div>
+            </div>
+
+            <div class="preview-timeline-list">
+              <div class="preview-item-row">
+                <div class="preview-item-left">
+                  <span class="preview-order-pill">1</span>
+                  <div style="min-width:0;">
+                    <div class="preview-item-title">Quảng trường Lâm Viên & Hồ Xuân Hương</div>
+                    <div class="preview-item-sub">08:00 – 10:00 · Trung tâm Đà Lạt · Tham quan & Check-in</div>
+                  </div>
+                </div>
+                <span style="font-size:13px; font-weight:700; color:var(--slate-600); white-space:nowrap;">Miễn phí</span>
+              </div>
+
+              <div class="preview-item-row">
+                <div class="preview-item-left">
+                  <span class="preview-order-pill">2</span>
+                  <div style="min-width:0;">
+                    <div class="preview-item-title">Vườn hoa Thành phố Đà Lạt</div>
+                    <div class="preview-item-sub">10:15 – 12:00 · Khu vực trung tâm · Phù hợp cả trong nhà & ngoài trời</div>
+                  </div>
+                </div>
+                <span style="font-size:13px; font-weight:700; color:var(--slate-700); white-space:nowrap;">100.000 ₫</span>
+              </div>
+
+              <div class="preview-item-row">
+                <div class="preview-item-left">
+                  <span class="preview-order-pill">3</span>
+                  <div style="min-width:0;">
+                    <div class="preview-item-title">Ẩm thực cơm niêu Như Ngọc</div>
+                    <div class="preview-item-sub">12:15 – 13:30 · Phường 1 · Đặc sản địa phương</div>
+                  </div>
+                </div>
+                <span style="font-size:13px; font-weight:700; color:var(--slate-700); white-space:nowrap;">300.000 ₫</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE FEATURES -->
+    <section class="section-wrap">
+      <div class="section-header">
+        <span class="section-kicker">Tính năng nổi bật</span>
+        <h2 class="section-title">Giải pháp toàn diện cho chuyến đi</h2>
+        <p class="section-desc">Hệ thống hỗ trợ từ bước thiết lập tiêu chí, cân đối tài chính cho đến điều hướng trên bản đồ thực tế.</p>
+      </div>
+
+      <div class="feature-grid-3">
+        <div class="feature-card">
+          <div class="feature-icon-box">💰</div>
+          <h3>Phân bổ ngân sách 5 nhóm</h3>
+          <p>Tự động chia ngân sách vào các nhóm: di chuyển, lưu trú, ăn uống, hoạt động trải nghiệm và quỹ dự phòng, đảm bảo không vượt trần chi tiêu.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">🗺️</div>
+          <h3>Bản đồ lộ trình tương tác</h3>
+          <p>Hiển thị các điểm tham quan được đánh số theo thứ tự khoa học trên bản đồ Leaflet, dễ dàng lọc theo từng ngày của chuyến đi.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">🌧️</div>
+          <h3>Thích ứng thời tiết ngày mưa</h3>
+          <p>Chế độ mô phỏng ngày mưa chủ động thay thế các điểm ngoài trời bằng không gian trong nhà và gợi ý danh sách vật dụng phù hợp.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">🎯</div>
+          <h3>Gợi ý theo sở thích</h3>
+          <p>Chọn phong cách du lịch mong muốn: thư giãn, ẩm thực, thiên nhiên, ngắm cảnh hoặc tiết kiệm để nhận lộ trình phù hợp nhất.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">📝</div>
+          <h3>Khảo sát & đánh giá</h3>
+          <p>Hệ thống ghi nhận phản hồi theo thang đo chuẩn mực nhằm không ngừng cải thiện độ chính xác và chất lượng lịch trình.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">⚙️</div>
+          <h3>Quản lý danh mục điểm đến</h3>
+          <p>Bảng điều khiển cho phép xem, tìm kiếm, lọc và cập nhật thông tin địa điểm của từng thành phố một cách nhanh chóng.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPUTATIONAL THINKING PILLARS -->
+    <section class="section-wrap">
+      <div class="section-header">
+        <span class="section-kicker">Nền tảng phát triển</span>
+        <h2 class="section-title">Ứng dụng 4 trụ cột tư duy tính toán</h2>
+        <p class="section-desc">Cách thức nhóm chuyển hóa bài toán lập lịch trình thực tế thành giải thuật tính toán hiệu quả.</p>
+      </div>
+
+      <div class="pillars-grid-4">
+        <div class="pillar-card">
+          <h4>1. Phân rã (Decomposition)</h4>
+          <p>Chia nhỏ kế hoạch chuyến đi thành các thành phần độc lập: kiểm tra dữ liệu đầu vào, phân bổ tài chính, gom cụm địa lý và xử lý thời tiết.</p>
+        </div>
+
+        <div class="pillar-card">
+          <h4>2. Nhận diện mẫu (Pattern Recognition)</h4>
+          <p>Quy đổi thói quen du lịch thành mô hình tính toán: độ tương đồng sở thích, tỷ lệ chi tiêu an toàn và trình tự tuyến đường hợp lý.</p>
+        </div>
+
+        <div class="pillar-card">
+          <h4>3. Trừu tượng hóa (Abstraction)</h4>
+          <p>Chuẩn hóa hồ sơ chuyến đi và thuộc tính địa điểm (tọa độ, giá vé, giờ mở cửa, tính chất trong nhà / ngoài trời) để thuật toán xử lý nhanh.</p>
+        </div>
+
+        <div class="pillar-card">
+          <h4>4. Thiết kế thuật toán (Algorithm Design)</h4>
+          <p>Quy trình đa bước: lọc địa điểm khả thi, tối ưu cự ly di chuyển, sắp xếp theo khung giờ trong ngày và trình bày trực quan trên bản đồ.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="section-wrap" style="margin-bottom:0;">
+      <div class="cta-card">
+        <h2>Sẵn sàng bắt đầu chuyến đi của bạn?</h2>
+        <p>Tạo lịch trình du lịch cá nhân hóa ngay hôm nay chỉ trong vài giây.</p>
+        <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+          <a href="planner.html" class="btn btn-primary btn-lg" style="background:#fff; color:var(--brand-900);">
+            Lập lịch trình ngay
+          </a>
+          <a href="login.html" class="btn btn-secondary btn-lg" style="background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.25);">
+            Trải nghiệm tài khoản demo
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- UNIFIED FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div>
+        <strong>Travel Planner</strong> · Đề tài Tư duy tính toán (CSC10014) · Nhóm 02
+      </div>
+      <div style="display:flex; gap:16px;">
+        <a href="planner.html">Lập lịch trình</a>
+        <a href="survey.html">Đánh giá</a>
+        <a href="dashboard.html">Tài khoản</a>
+        <a href="terms.html">Điều khoản</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initGlobalNav } from "./js/nav.js?v=9";
+    initGlobalNav("index");
+  </script>
+</body>
+</html>

@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lập Lịch Trình Chuyến Đi | Travel Planner</title>
+  
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%230284c7%22 stroke-width=%222%22><path d=%22m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z%22/><path d=%22m11.1 14.3 3.6-4.4%22/></svg>">
+  
+  <!-- Leaflet.js CSS cho Bản Đồ Tương Tác -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  
+  <style>
+    .planner-layout {
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+      margin: 24px 0 60px;
+      padding: 0 28px;
+      display: grid;
+      grid-template-columns: clamp(380px, 37%, 540px) minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .planner-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin-top: 16px;
+        padding: 0 16px;
+      }
+    }
+
+    .control-sidebar {
+      position: sticky;
+      top: 80px;
+    }
+
+    @media (max-width: 1024px) {
+      .control-sidebar {
+        position: static;
+      }
+    }
+
+    /* Target anchor for smooth scrolling */
+    #resultsWorkspace {
+      scroll-margin-top: 80px;
+    }
+
+    /* Map Box Styles */
+    .map-wrapper {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      background: #e2e8f0;
+    }
+
+    #map {
+      height: 400px;
+      width: 100%;
+      z-index: 1;
+    }
+
+    @media (max-width: 600px) {
+      #map {
+        height: 320px;
+      }
+    }
+
+    /* Map Day Filter Floating Pills */
+    .map-floating-controls {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 500;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-full);
+      padding: 4px;
+      display: flex;
+      gap: 4px;
+      box-shadow: var(--shadow-md);
+      max-width: calc(100% - 24px);
+      overflow-x: auto;
+    }
+
+    .map-filter-btn {
+      border: none;
+      background: transparent;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--slate-600);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+      font-family: var(--font-sans);
+    }
+
+    .map-filter-btn.active {
+      background: var(--brand-600);
+      color: #fff;
+    }
+
+    /* 5-Category Budget Section (Unified 3-Column Grid) */
+    .budget-breakdown-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (max-width: 600px) {
+      .budget-breakdown-card {
+        padding: 18px 16px;
+      }
+    }
+
+    .budget-table-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .budget-row-grid {
+      display: grid;
+      grid-template-columns: 240px 1fr 160px;
+      align-items: center;
+      gap: 20px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--slate-100);
+    }
+
+    .budget-row-grid:last-child {
+      border-bottom: none;
+    }
+
+    .budget-col-label {
+      min-width: 0;
+    }
+
+    .budget-cat-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--slate-800);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    .budget-cat-sub {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--slate-500);
+      margin-top: 2px;
+      padding-left: 23px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .budget-col-track {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .budget-progress-track {
+      width: 100%;
+      height: 9px;
+      background: var(--slate-100);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .budget-progress-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 0.5s ease;
+    }
+
+    .budget-col-val {
+      text-align: right;
+      font-family: var(--font-mono);
+      white-space: nowrap;
+      justify-self: end;
+    }
+
+    .budget-amount-txt {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--slate-900);
+      white-space: nowrap;
+    }
+
+    .budget-pct-txt {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--slate-500);
+      margin-top: 1px;
+    }
+
+    @media (max-width: 768px) {
+      .budget-row-grid {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto;
+        gap: 8px 14px;
+        align-items: center;
+        padding-bottom: 14px;
+      }
+
+      .budget-col-label {
+        grid-column: 1;
+        grid-row: 1;
+        min-width: 0;
+      }
+
+      .budget-cat-title {
+        white-space: normal;
+        word-break: break-word;
+      }
+
+      .budget-cat-sub {
+        white-space: normal;
+        word-break: break-word;
+      }
+
+      .budget-col-val {
+        grid-column: 2;
+        grid-row: 1;
+        text-align: right;
+        align-self: center;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .budget-col-track {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 100%;
+        margin-top: 2px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .budget-row-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 6px;
+      }
+
+      .budget-col-label {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .budget-col-val {
+        grid-column: 1;
+        grid-row: 2;
+        text-align: left;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+
+      .budget-col-track {
+        grid-column: 1;
+        grid-row: 3;
+        margin-top: 2px;
+      }
+    }
+
+    /* Transparency Details */
+    .transparency-details {
+      background: var(--slate-50);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: 13.5px;
+    }
+
+    .transparency-summary {
+      font-weight: 700;
+      color: var(--slate-800);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+    }
+
+    .transparency-content {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-light);
+      color: var(--slate-600);
+      line-height: 1.6;
+    }
+
+    .trans-metrics-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .trans-metrics-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .trans-metric-box {
+      background: #fff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      text-align: center;
+    }
+
+    /* Packing checklist */
+    .packing-card {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: var(--radius-xl);
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+
+    .checklist-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .checklist-2col { grid-template-columns: 1fr; }
+    }
+
+    .check-label-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #166534;
+      cursor: pointer;
+    }
+
+    .check-label-item.rain-highlight {
+      background: #fef08a;
+      padding: 4px 8px;
+      border-radius: var(--radius-md);
+      color: #854d0e;
+      font-weight: 700;
+    }
+
+    /* Empty state */
+    .empty-state-wrap {
+      text-align: center;
+      padding: 64px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    /* Print styles */
+    @media print {
+      .app-nav, .control-sidebar, .map-floating-controls, .action-footer-bar, .app-footer {
+        display: none !important;
+      }
+      body { background: #fff; }
+      .planner-layout { display: block; max-width: 100%; margin: 0; padding: 0; }
+      .card-ui { border: none; box-shadow: none; padding: 0; }
+      .map-wrapper { height: 260px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIFIED APP NAVBAR -->
+  <header class="app-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon-box" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z"/>
+            <path d="m11.1 14.3 3.6-4.4"/>
+          </svg>
+        </div>
+        <span>Travel Planner</span>
+      </a>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="nav-toggle-btn" aria-label="Mở menu điều hướng" aria-expanded="false" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Nav Links -->
+      <nav class="nav-links-wrap" aria-label="Điều hướng chính">
+        <a href="index.html" class="nav-item">Trang chủ</a>
+        <a href="planner.html" class="nav-item active" data-nav="planner" aria-current="page">Lập lịch trình</a>
+        <a href="survey.html" class="nav-item" data-nav="survey">Đánh giá</a>
+        <a href="manager.html" id="nav-manager-link" class="nav-item" data-nav="manager" style="display:none;">Quản lý địa điểm</a>
+        <a href="dashboard.html" id="nav-user-badge" class="user-badge-pill" style="display:none;" title="Tài khoản">
+          <span aria-hidden="true">👤</span>
+          <span id="nav-username" class="user-name-text">Tài khoản</span>
+        </a>
+        <a href="login.html" id="nav-auth-link" class="btn btn-primary btn-sm">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="planner-layout">
+    
+    <!-- LEFT PANEL: CONTROLS & FORM -->
+    <aside class="control-sidebar">
+      <div class="card-ui">
+        <div class="card-title-row">
+          <h1 class="card-title" style="font-size:18px;">
+            <span>🧭</span> Tiêu chí chuyến đi
+          </h1>
+          <span style="font-size:12px; font-weight:700; color:var(--brand-600); background:var(--brand-50); padding:3px 8px; border-radius:var(--radius-sm);">
+            Tự động tối ưu
+          </span>
+        </div>
+
+        <form id="tripForm" novalidate>
+          
+          <!-- 1. Điểm đến -->
+          <div class="form-group-ui">
+            <label class="form-label-ui" for="destSelect">
+              <span>1. Điểm đến</span>
+              <span style="color:var(--slate-400); font-weight:500;">Thành phố</span>
+            </label>
+            <select id="destSelect" class="select-ui" required>
+              <option value="" selected disabled>Chọn điểm đến</option>
+              <option value="Đà Lạt">Đà Lạt (Cao nguyên ngàn hoa)</option>
+              <option value="Nha Trang">Nha Trang (Thành phố biển vịnh ngọc)</option>
+              <option value="Đà Lạt + Nha Trang">Chuyến đi kết hợp: Đà Lạt + Nha Trang</option>
+            </select>
+            <div class="field-error-msg" id="err-dest"></div>
+          </div>
+
+          <!-- 2. Lựa chọn ngày -->
+          <div class="form-group-ui">
+            <label class="form-label-ui">
+              <span>2. Thời gian chuyến đi</span>
+              <span id="durationPill" style="display:none; font-weight:700; color:var(--brand-600); background:var(--brand-50); padding:2px 8px; border-radius:var(--radius-sm);"></span>
+            </label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <div>
+                <label for="startDate" style="font-size:11.5px; color:var(--slate-500); display:block; margin-bottom:4px;">Ngày khởi hành:</label>
+                <input type="date" id="startDate" class="input-ui" value="">
+              </div>
+              <div>
+                <label for="endDate" style="font-size:11.5px; color:var(--slate-500); display:block; margin-bottom:4px;">Ngày kết thúc:</label>
+                <input type="date" id="endDate" class="input-ui" value="">
+              </div>
+            </div>
+            <div class="field-error-msg" id="err-dates"></div>
+          </div>
+
+          <!-- 3. Số người tham gia -->
+          <div class="form-group-ui">
+            <label class="form-label-ui" for="partySize">
+              <span>3. Số lượng người</span>
+              <span style="color:var(--slate-400); font-weight:500;">Thành viên đoàn</span>
+            </label>
+            <input type="number" id="partySize" class="input-ui" value="" min="1" max="50" placeholder="Ví dụ: 2">
+            <div class="field-error-msg" id="err-party"></div>
+          </div>
+
+          <!-- 4. Ngân sách -->
+          <div class="form-group-ui">
+            <div class="form-label-ui">
+              <span>4. Ngân sách tối đa</span>
+              <span id="budgetFormattedVal" style="color:var(--slate-400); font-weight:500; font-size:13px;">Chưa nhập</span>
+            </div>
+            <input type="number" id="budgetInput" class="input-ui" value="" step="500000" min="1000000" placeholder="Ví dụ: 8.000.000">
+            <div class="field-error-msg" id="err-budget"></div>
+            <div style="margin-top:10px;">
+              <input type="range" id="budgetSlider" min="2000000" max="30000000" step="500000" value="8000000" class="budget-range-slider" aria-label="Điều chỉnh ngân sách">
+              <div style="display:flex; justify-content:space-between; font-size:11.5px; color:var(--slate-400); margin-top:4px;">
+                <span>2 Triệu</span>
+                <span>15 Triệu</span>
+                <span>30 Triệu</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Phong cách Vibes -->
+          <div class="form-group-ui">
+            <label class="form-label-ui">
+              <span>5. Sở thích & phong cách</span>
+              <span style="color:var(--slate-400); font-weight:500;">Tùy chọn</span>
+            </label>
+            <div style="font-size:12px; color:var(--slate-500); margin-top:-2px; margin-bottom:8px;">Chọn nhiều mục nếu muốn (Không bắt buộc)</div>
+            <div class="vibe-selection-grid" id="vibesContainer" role="group" aria-label="Chọn sở thích và phong cách">
+              <!-- Render by JavaScript -->
+            </div>
+          </div>
+
+          <!-- 6. Toggle Mô phỏng trời mưa -->
+          <div class="toggle-switch-card rainy">
+            <div>
+              <div class="toggle-info-title">Mô phỏng trời mưa</div>
+              <div class="toggle-info-desc">Tự động ưu tiên không gian trong nhà khi có mưa</div>
+            </div>
+            <label class="switch-ios" aria-label="Kích hoạt mô phỏng trời mưa">
+              <input type="checkbox" id="rainToggle">
+              <span class="slider-ios"></span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" id="btnSubmitTrip" style="width:100%;">
+            <span>Lập lịch trình</span>
+          </button>
+        </form>
+      </div>
+    </aside>
+
+    <!-- RIGHT PANEL: WORKSPACE & OUTPUT -->
+    <section id="resultsWorkspace">
+      
+      <!-- EMPTY STATE BANNER -->
+      <div id="emptyState" class="empty-state-wrap">
+        <div class="empty-state-icon">🧭</div>
+        <h2 style="font-size:20px; font-weight:800; color:var(--slate-800); margin-bottom:8px;">Chưa có lịch trình được tạo</h2>
+        <p style="color:var(--slate-500); max-width:520px; margin:0 auto 24px; font-size:14px; line-height:1.6;">
+          Hãy chọn điểm đến, số ngày, ngân sách và sở thích ở cột bên trái, sau đó nhấn <b>"Lập lịch trình"</b> để hệ thống tự động tối ưu chuyến đi của bạn.
+        </p>
+        <button type="button" class="btn btn-secondary btn-lg" onclick="triggerDefaultDemo()">
+          Thử lịch trình mẫu
+        </button>
+      </div>
+
+      <!-- RESULTS CONTAINER (Rendered dynamically) -->
+      <div id="activeItineraryContent" style="display:none;" class="animate-fade-in">
+        <!-- Rendered by renderPlannerResults() -->
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- UNIFIED FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div>
+        <strong>Travel Planner</strong> · Đề tài Tư duy tính toán (CSC10014) · Nhóm 02
+      </div>
+      <div style="display:flex; gap:16px;">
+        <a href="planner.html">Lập lịch trình</a>
+        <a href="survey.html">Đánh giá</a>
+        <a href="dashboard.html">Tài khoản</a>
+        <a href="terms.html">Điều khoản</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- LEAFLET.JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <script type="module">
+    import { initGlobalNav } from "./js/nav.js?v=8";
+    initGlobalNav("planner");
+
+    // Bắt đầu với biểu mẫu rỗng theo yêu cầu
+    const destSelect = document.getElementById("destSelect");
+    const startDateInput = document.getElementById("startDate");
+    const endDateInput = document.getElementById("endDate");
+    const partySizeInput = document.getElementById("partySize");
+    const budgetInput = document.getElementById("budgetInput");
+    const budgetSlider = document.getElementById("budgetSlider");
+    const budgetFormattedVal = document.getElementById("budgetFormattedVal");
+    const durationPill = document.getElementById("durationPill");
+
+    destSelect.value = "";
+    startDateInput.value = "";
+    endDateInput.value = "";
+    partySizeInput.value = "";
+    budgetInput.value = "";
+    budgetSlider.value = "8000000";
+    budgetSlider.classList.remove("active-fill");
+    budgetSlider.style.setProperty('--slider-pct', '0%');
+    budgetFormattedVal.textContent = "Chưa nhập";
+    budgetFormattedVal.style.color = "var(--slate-400)";
+    budgetFormattedVal.style.fontWeight = "500";
+    durationPill.style.display = "none";
+
+    const formatYMD = (d) => {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    };
+
+    function updateDurationPill() {
+      const startVal = startDateInput.value;
+      const endVal = endDateInput.value;
+
+      if (!startVal || !endVal) {
+        durationPill.style.display = "none";
+        return;
+      }
+
+      const s = new Date(startVal);
+      const e = new Date(endVal);
+      if (!isNaN(s) && !isNaN(e)) {
+        const diff = Math.ceil((e - s) / (1000 * 60 * 60 * 24)) + 1;
+        if (diff > 0) {
+          durationPill.style.display = "inline-block";
+          durationPill.textContent = `${diff} Ngày ${Math.max(1, diff - 1)} Đêm`;
+          durationPill.style.color = "var(--brand-600)";
+          durationPill.style.background = "var(--brand-50)";
+        } else {
+          durationPill.style.display = "inline-block";
+          durationPill.textContent = "Ngày không hợp lệ";
+          durationPill.style.color = "var(--danger)";
+          durationPill.style.background = "#fee2e2";
+        }
+      } else {
+        durationPill.style.display = "none";
+      }
+    }
+
+    startDateInput.addEventListener("change", () => {
+      updateDurationPill();
+      clearFieldError("dates");
+    });
+    endDateInput.addEventListener("change", () => {
+      updateDurationPill();
+      clearFieldError("dates");
+    });
+
+    // Đồng bộ Slider & Ô nhập Ngân sách
+    function syncBudgetDisplay(val, active = true) {
+      if (!active || val === "" || val === null || isNaN(val) || Number(val) <= 0) {
+        budgetFormattedVal.textContent = "Chưa nhập";
+        budgetFormattedVal.style.color = "var(--slate-400)";
+        budgetFormattedVal.style.fontWeight = "500";
+        budgetSlider.classList.remove("active-fill");
+        budgetSlider.style.setProperty('--slider-pct', '0%');
+        return;
+      }
+
+      const num = Number(val);
+      budgetFormattedVal.textContent = num.toLocaleString('vi-VN') + " ₫";
+      budgetFormattedVal.style.color = "var(--brand-600)";
+      budgetFormattedVal.style.fontWeight = "800";
+
+      const min = parseFloat(budgetSlider.min) || 2000000;
+      const max = parseFloat(budgetSlider.max) || 30000000;
+      const pct = Math.max(0, Math.min(100, ((num - min) / (max - min)) * 100));
+      budgetSlider.classList.add("active-fill");
+      budgetSlider.style.setProperty('--slider-pct', pct + '%');
+    }
+
+    budgetSlider.addEventListener("input", () => {
+      budgetInput.value = budgetSlider.value;
+      syncBudgetDisplay(budgetSlider.value, true);
+      clearFieldError("budget");
+    });
+
+    budgetInput.addEventListener("input", () => {
+      const v = budgetInput.value.trim();
+      if (v) {
+        const num = Number(v);
+        if (!isNaN(num) && num > 0) {
+          budgetSlider.value = num;
+          syncBudgetDisplay(num, true);
+        } else {
+          syncBudgetDisplay(null, false);
+        }
+      } else {
+        syncBudgetDisplay(null, false);
+      }
+      clearFieldError("budget");
+    });
+
+    // Preset Vibes với nhãn rút gọn, dễ quét và lưới 2 cột
+    const VIBES_LIST = [
+      { id: "Chill", label: "Thư giãn" },
+      { id: "Nature", label: "Thiên nhiên" },
+      { id: "View_Hunting", label: "Săn mây" },
+      { id: "Culinary", label: "Ẩm thực địa phương" },
+      { id: "Photography", label: "Chụp ảnh" },
+      { id: "Cultural", label: "Văn hóa & lịch sử" },
+      { id: "Adventure", label: "Phiêu lưu" },
+      { id: "Romantic", label: "Lãng mạn" },
+      { id: "Budget_Friendly", label: "Tiết kiệm" },
+      { id: "Luxury", label: "Nghỉ dưỡng" }
+    ];
+    let selectedVibes = []; // Khởi tạo rỗng hoàn toàn
+
+    function renderVibesGrid() {
+      const container = document.getElementById("vibesContainer");
+      container.innerHTML = "";
+      VIBES_LIST.forEach(v => {
+        const isSelected = selectedVibes.includes(v.id);
+        const labelCard = document.createElement("label");
+        labelCard.className = `vibe-option-card ${isSelected ? "selected" : ""}`;
+        labelCard.id = `vibe_card_${v.id}`;
+        labelCard.setAttribute("for", `vibe_chk_${v.id}`);
+        labelCard.innerHTML = `
+          <input type="checkbox" id="vibe_chk_${v.id}" value="${v.id}" class="sr-only vibe-input" ${isSelected ? "checked" : ""}>
+          <span class="vibe-check-box" aria-hidden="true">
+            <svg class="vibe-check-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </span>
+          <span class="vibe-label-text">${v.label}</span>
+        `;
+        const chk = labelCard.querySelector("input");
+        chk.addEventListener("change", () => {
+          if (chk.checked) {
+            if (!selectedVibes.includes(v.id)) selectedVibes.push(v.id);
+            labelCard.classList.add("selected");
+          } else {
+            selectedVibes = selectedVibes.filter(item => item !== v.id);
+            labelCard.classList.remove("selected");
+          }
+        });
+        container.appendChild(labelCard);
+      });
+    }
+    renderVibesGrid();
+
+    // Field Error Display Handlers
+    function clearFieldError(fieldId) {
+      const errEl = document.getElementById(`err-${fieldId}`);
+      if (errEl) {
+        errEl.style.display = "none";
+        errEl.textContent = "";
+      }
+      if (fieldId === "dest") destSelect.classList.remove("input-error");
+      if (fieldId === "dates") {
+        startDateInput.classList.remove("input-error");
+        endDateInput.classList.remove("input-error");
+      }
+      if (fieldId === "party") partySizeInput.classList.remove("input-error");
+      if (fieldId === "budget") budgetInput.classList.remove("input-error");
+    }
+
+    function showFieldError(fieldId, msg, focusTarget) {
+      const errEl = document.getElementById(`err-${fieldId}`);
+      if (errEl) {
+        errEl.innerHTML = `<span>⚠️</span> <span>${msg}</span>`;
+        errEl.style.display = "flex";
+      }
+      if (focusTarget) {
+        focusTarget.classList.add("input-error");
+      }
+    }
+
+    destSelect.addEventListener("change", () => clearFieldError("dest"));
+    partySizeInput.addEventListener("input", () => clearFieldError("party"));
+
+    // Biến toàn cục Leaflet
+    let leafletMap = null;
+    let mapMarkers = [];
+    let mapPolylines = [];
+    let cachedDaysData = [];
+
+    // Nút demo nhanh
+    window.triggerDefaultDemo = function() {
+      destSelect.value = "Đà Lạt";
+      
+      const today = new Date();
+      const futureDate = new Date();
+      futureDate.setDate(today.getDate() + 2);
+      startDateInput.value = formatYMD(today);
+      endDateInput.value = formatYMD(futureDate);
+      updateDurationPill();
+
+      partySizeInput.value = 2;
+      budgetInput.value = 8000000;
+      budgetSlider.value = 8000000;
+      syncBudgetDisplay(8000000, true);
+
+      selectedVibes = ["Chill", "Nature", "Culinary", "Photography"];
+      renderVibesGrid();
+
+      ["dest", "dates", "party", "budget"].forEach(clearFieldError);
+
+      document.getElementById("tripForm").dispatchEvent(new Event("submit"));
+    };
+
+    // Kiểm tra nếu có trigger_demo từ trang chủ
+    if (sessionStorage.getItem("trigger_demo") === "1" || new URLSearchParams(window.location.search).get("demo") === "true") {
+      sessionStorage.removeItem("trigger_demo");
+      setTimeout(() => window.triggerDefaultDemo(), 300);
+    }
+
+    // Gửi Form tính toán có validation bắt buộc tiếng Việt
+    document.getElementById("tripForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      let hasError = false;
+      let firstInvalidEl = null;
+
+      // 1. Kiểm tra Điểm đến
+      const dest = destSelect.value.trim();
+      if (!dest) {
+        showFieldError("dest", "Vui lòng chọn điểm đến cho chuyến đi", destSelect);
+        hasError = true;
+        if (!firstInvalidEl) firstInvalidEl = destSelect;
+      } else {
+        clearFieldError("dest");
+      }
+
+      // 2. Kiểm tra Ngày khởi hành & kết thúc
+      const startVal = startDateInput.value;
+      const endVal = endDateInput.value;
+      if (!startVal || !endVal) {
+        showFieldError("dates", "Vui lòng chọn đầy đủ ngày khởi hành và ngày kết thúc", !startVal ? startDateInput : endDateInput);
+        hasError = true;
+        if (!firstInvalidEl) firstInvalidEl = !startVal ? startDateInput : endDateInput;
+      } else {
+        const s = new Date(startVal);
+        const end = new Date(endVal);
+        if (isNaN(s) || isNaN(end) || end < s) {
+          showFieldError("dates", "Ngày kết thúc phải sau hoặc cùng ngày khởi hành", endDateInput);
+          hasError = true;
+          if (!firstInvalidEl) firstInvalidEl = endDateInput;
+        } else {
+          clearFieldError("dates");
+        }
+      }
+
+      // 3. Kiểm tra Số lượng người
+      const partyVal = parseInt(partySizeInput.value);
+      if (isNaN(partyVal) || partyVal < 1) {
+        showFieldError("party", "Vui lòng nhập số người tham gia (tối thiểu 1 người)", partySizeInput);
+        hasError = true;
+        if (!firstInvalidEl) firstInvalidEl = partySizeInput;
+      } else {
+        clearFieldError("party");
+      }
+
+      // 4. Kiểm tra Ngân sách tối đa
+      const budgetVal = parseFloat(budgetInput.value);
+      if (isNaN(budgetVal) || budgetVal <= 0) {
+        showFieldError("budget", "Vui lòng nhập ngân sách tối đa cho chuyến đi", budgetInput);
+        hasError = true;
+        if (!firstInvalidEl) firstInvalidEl = budgetInput;
+      } else if (budgetVal < 1000000) {
+        showFieldError("budget", "Ngân sách tối thiểu từ 1.000.000 ₫ để đảm bảo chi phí cơ bản", budgetInput);
+        hasError = true;
+        if (!firstInvalidEl) firstInvalidEl = budgetInput;
+      } else {
+        clearFieldError("budget");
+      }
+
+      if (hasError) {
+        if (firstInvalidEl) firstInvalidEl.focus();
+        return;
+      }
+
+      const btn = document.getElementById("btnSubmitTrip");
+      btn.disabled = true;
+      btn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="animate-spin" style="animation: spin 1s linear infinite;">
+          <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/>
+        </svg>
+        <span>Đang lập lịch trình tối ưu...</span>
+      `;
+
+      const payload = {
+        destination: dest,
+        budget_vnd: budgetVal,
+        start_date: startVal,
+        end_date: endVal,
+        party_size: partyVal,
+        vibes: selectedVibes,
+        is_rainy: document.getElementById("rainToggle").checked
+      };
+
+      try {
+        const res = await fetch("/api/itinerary/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        renderPlannerResults(data);
+
+        // Cuộn mượt đến phần kết quả mà không che navbar
+        const resultsEl = document.getElementById("resultsWorkspace");
+        if (resultsEl) {
+          resultsEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      } catch (err) {
+        alert("Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại dịch vụ backend.");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = "<span>Lập lịch trình</span>";
+      }
+    });
+
+    // Render kết quả hoàn chỉnh
+    function renderPlannerResults(data) {
+      document.getElementById("emptyState").style.display = "none";
+      const container = document.getElementById("activeItineraryContent");
+      container.style.display = "block";
+
+      // 1. Cảnh báo lỗi ngân sách sàn (TC01)
+      if (data.status === "warning") {
+        container.innerHTML = `
+          <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:var(--radius-xl); padding:24px; color:#92400e;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+              <span style="font-size:22px;">⚠️</span>
+              <h3 style="margin:0; font-size:17px; font-weight:800;">Ngân sách dưới mức tối thiểu khuyến nghị</h3>
+            </div>
+            <p style="line-height:1.6; margin:0; font-size:14px;">${data.message}</p>
+          </div>
+        `;
+        return;
+      }
+
+      // 2. Bắt lỗi ngày tháng không hợp lệ (TC02)
+      if (data.status === "error" || data.detail) {
+        container.innerHTML = `
+          <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:var(--radius-xl); padding:24px; color:#991b1b;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+              <span style="font-size:22px;">❌</span>
+              <h3 style="margin:0; font-size:17px; font-weight:800;">Thời gian chuyến đi chưa hợp lệ</h3>
+            </div>
+            <p style="line-height:1.6; margin:0; font-size:14px;">${data.detail || data.message}</p>
+          </div>
+        `;
+        return;
+      }
+
+      const trip = data.trip_info;
+      const budget = data.budget_breakdown;
+      const trans = data.algorithm_transparency;
+      const pack = data.packing_checklist;
+      const days = data.daily_itinerary;
+      cachedDaysData = days;
+
+      const dayColors = ["#0284c7", "#059669", "#7c3aed", "#d97706", "#db2777"];
+
+      let html = `
+        <!-- 4 THẺ METRICS KPI -->
+        <div class="metric-grid">
+          <div class="metric-card">
+            <span class="metric-label">Ngân sách tối đa</span>
+            <span class="metric-val">${Number(trip.user_budget_vnd).toLocaleString('vi-VN')} ₫</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Chi phí dự kiến</span>
+            <span class="metric-val brand">${Number(trip.total_projected_spent_vnd).toLocaleString('vi-VN')} ₫</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Quỹ dự phòng còn lại</span>
+            <span class="metric-val green">${Number(trip.contingency_fund_vnd).toLocaleString('vi-VN')} ₫</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Tổng quãng đường di chuyển</span>
+            <span class="metric-val purple">${trans.total_distance_km} km</span>
+          </div>
+        </div>
+
+        <!-- BẢN ĐỒ TƯƠNG TÁC LEAFLET -->
+        <div class="map-wrapper" aria-label="Bản đồ lộ trình các ngày">
+          <div class="map-floating-controls" id="mapPills">
+            <button class="map-filter-btn active" onclick="filterMapDay(-1)">Tất cả các ngày</button>
+            ${days.map((d, i) => `
+              <button class="map-filter-btn" onclick="filterMapDay(${i})">Ngày ${d.day_number}</button>
+            `).join('')}
+          </div>
+          <div id="map"></div>
+        </div>
+
+        <!-- PHÂN BỔ 5 NHÓM NGÂN SÁCH (Lưới Thống Nhất) -->
+        <div class="budget-breakdown-card">
+          <div class="card-title-row" style="margin-bottom:18px;">
+            <h3 class="card-title" style="font-size:17px;">
+              <span>💰</span> Phân bổ ngân sách 5 nhóm
+            </h3>
+            <span style="font-size:12px; font-weight:700; color:#059669; background:#ecfdf5; padding:4px 12px; border-radius:var(--radius-full);">
+              ✓ Cam kết trong ngân sách tối đa
+            </span>
+          </div>
+
+          <div class="budget-table-grid">
+            ${(() => {
+              const parseSub = (raw, fallback) => {
+                if (!raw) return fallback;
+                const m = raw.match(/\((.*?)\)/);
+                return m ? m[1].replace('&', 'và').replace('x', '×') : fallback;
+              };
+
+              const categories = [
+                {
+                  icon: "🚗",
+                  title: "Di chuyển",
+                  subtitle: "Vé liên tỉnh và xăng xe",
+                  color: "#38bdf8",
+                  data: budget.transportation
+                },
+                {
+                  icon: "🏨",
+                  title: "Lưu trú",
+                  subtitle: parseSub(budget.accommodation.name, `${days.length - 1} đêm / ${Math.ceil(trip.party_size / 2)} phòng`),
+                  color: "#818cf8",
+                  data: budget.accommodation
+                },
+                {
+                  icon: "🍲",
+                  title: "Ăn uống",
+                  subtitle: parseSub(budget.dining.name, `${days.length} ngày × ${trip.party_size} người`),
+                  color: "#34d399",
+                  data: budget.dining
+                },
+                {
+                  icon: "🎟️",
+                  title: "Vé tham quan & trải nghiệm",
+                  subtitle: "Vé vào cổng và dịch vụ vui chơi",
+                  color: "#fbbf24",
+                  data: budget.activities
+                },
+                {
+                  icon: "🛡️",
+                  title: "Quỹ dự phòng",
+                  subtitle: "Dự phòng phát sinh an toàn",
+                  color: "#a78bfa",
+                  data: budget.contingency
+                }
+              ];
+
+              return categories.map(cat => `
+                <div class="budget-row-grid">
+                  <div class="budget-col-label">
+                    <div class="budget-cat-title">
+                      <span aria-hidden="true">${cat.icon}</span>
+                      <span>${cat.title}</span>
+                    </div>
+                    <div class="budget-cat-sub">${cat.subtitle}</div>
+                  </div>
+                  <div class="budget-col-track">
+                    <div class="budget-progress-track">
+                      <div class="budget-progress-fill" style="width:${cat.data.pct}%; background:${cat.color};"></div>
+                    </div>
+                  </div>
+                  <div class="budget-col-val">
+                    <div class="budget-amount-txt">${Number(cat.data.amount_vnd).toLocaleString('vi-VN')} ₫</div>
+                    <div class="budget-pct-txt">${cat.data.pct}%</div>
+                  </div>
+                </div>
+              `).join('');
+            })()}
+          </div>
+        </div>
+
+        <!-- MỤC MỞ RỘNG: TÌM HIỂU CƠ CHẾ TỐI ƯU HÓA -->
+        <details class="transparency-details">
+          <summary class="transparency-summary">
+            <span>🔍 Cơ chế tính toán & tối ưu hóa lộ trình</span>
+            <span style="font-size:12px; font-weight:600; color:var(--brand-600);">Chi tiết ▾</span>
+          </summary>
+          <div class="transparency-content">
+            <p style="margin-bottom:12px;">
+              ${trans.explanation.replace(/\$B_\{max\}\$/g, 'Ngân sách tối đa').replace(/F0\d/g, '').replace(/TC0\d/g, '')}
+            </p>
+            <div class="trans-metrics-3">
+              <div class="trans-metric-box">
+                <span style="font-size:11.5px; color:var(--slate-500); font-weight:600; display:block;">Độ khớp sở thích</span>
+                <strong style="font-size:17px; color:var(--slate-900);">${trans.jaccard_match_pct}%</strong>
+              </div>
+              <div class="trans-metric-box">
+                <span style="font-size:11.5px; color:var(--slate-500); font-weight:600; display:block;">Khoảng cách tiết kiệm</span>
+                <strong style="font-size:17px; color:#059669;">~${trans.distance_saved_km} km (Nhờ gom cụm)</strong>
+              </div>
+              <div class="trans-metric-box">
+                <span style="font-size:11.5px; color:var(--slate-500); font-weight:600; display:block;">Kiểm soát ngân sách</span>
+                <strong style="font-size:17px; color:var(--brand-600);">Tuyệt đối trong trần</strong>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- HÀNH LÝ KHUYÊN DÙNG -->
+        <div class="packing-card">
+          <h3 style="margin:0; font-size:16px; font-weight:700; color:#14532d; display:flex; align-items:center; gap:8px;">
+            <span>🎒</span> Danh sách hành lý khuyên dùng (${trip.is_rainy ? "Đang bật chế độ trời mưa" : "Thời tiết tiêu chuẩn"})
+          </h3>
+          <div class="checklist-2col">
+            ${pack.map(p => `
+              <label class="check-label-item ${p.highlight ? 'rain-highlight' : ''}">
+                <input type="checkbox" ${p.checked ? 'checked' : ''}>
+                <span>${p.item}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- CHI TIẾT TỪNG NGÀY -->
+        <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <h3 style="font-size:18px; font-weight:800; margin:0; color:var(--slate-900);">
+            Chi tiết lịch trình từng ngày
+          </h3>
+          <span style="font-size:13px; color:var(--slate-500); font-weight:600;">6 khung giờ cân bằng thể lực</span>
+        </div>
+      `;
+
+      // Ánh xạ tag vibes sang Tiếng Việt và loại bỏ trùng lặp ngữ nghĩa
+      const vibeMap = {
+        "Chill": "Thư giãn",
+        "Relaxation": "Thư giãn",
+        "Nature": "Thiên nhiên",
+        "View_Hunting": "Ngắm cảnh",
+        "Culinary": "Ẩm thực",
+        "Local_Food": "Ẩm thực địa phương",
+        "Photography": "Check-in",
+        "Cultural": "Văn hóa",
+        "Adventure": "Phiêu lưu",
+        "Romantic": "Lãng mạn",
+        "Budget_Friendly": "Tiết kiệm",
+        "Luxury": "Nghỉ dưỡng",
+        "Family": "Gia đình",
+        "City Center": "Trung tâm",
+        "Tuyen Lam": "Tuyền Lâm"
+      };
+
+      function getCleanVibeTags(rawVibes) {
+        if (!rawVibes || !Array.isArray(rawVibes)) return [];
+        const seen = new Set();
+        const result = [];
+        rawVibes.forEach(v => {
+          const mapped = vibeMap[v] || v;
+          if (mapped && !seen.has(mapped)) {
+            seen.add(mapped);
+            result.push(mapped);
+          }
+        });
+        return result;
+      }
+
+      days.forEach((day, idx) => {
+        const color = dayColors[idx % dayColors.length];
+        html += `
+          <div class="timeline-day-block">
+            <div class="day-header-pill" style="background:${color};">
+              <div class="day-header-title">
+                <span>📍</span> ${day.day_title}
+              </div>
+              <div class="day-hotel-sub">
+                🏨 Chỗ ở: ${day.hotel ? day.hotel.name : 'Khách sạn trung tâm'}
+              </div>
+            </div>
+
+            <div class="timeline-items-list">
+              ${day.activities.map(act => {
+                const cleanTags = getCleanVibeTags(act.place.vibes);
+                const costDisplay = act.cost_vnd > 0 ? Number(act.cost_vnd).toLocaleString('vi-VN') + ' ₫' : 'Miễn phí';
+                const addr = act.place.new_address || act.place.address || 'Khu vực trung tâm';
+                const rating = act.place.rating || '4.5';
+                const dist = act.distance_km || '0';
+
+                return `
+                <div class="timeline-item-row">
+                  <div class="timeline-order-circle" style="color:${color}; border-color:${color}60; background:${color}15;">
+                    ${act.order}
+                  </div>
+                  <div class="timeline-item-content">
+                    <div class="timeline-item-header">
+                      <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px;">
+                        <span class="place-name-txt">[${act.time}] ${act.place.name}</span>
+                        <span class="act-badge">${act.category}</span>
+                      </div>
+                      <span class="timeline-item-cost">
+                        ${costDisplay}
+                      </span>
+                    </div>
+
+                    <div class="place-details-stack">
+                      <div class="place-details-line">
+                        <span class="place-meta-item">📍 <b>Địa chỉ:</b> ${addr}</span>
+                      </div>
+                      <div class="place-details-line">
+                        <span class="place-meta-item">⭐ <b>Đánh giá:</b> ${rating}</span>
+                        <span style="color:var(--slate-300);">·</span>
+                        <span class="place-meta-item">🚗 <b>Cự ly từ điểm trước:</b> ${dist} km</span>
+                      </div>
+                      ${act.note ? `<div class="place-note-txt"><i>${act.note}</i></div>` : ''}
+                    </div>
+
+                    <div class="place-features-row">
+                      <div class="place-tags-group">
+                        ${cleanTags.map(t => `<span class="feat-tag">${t}</span>`).join('')}
+                        ${act.place.weather_suitability === 'Indoor' ? `<span class="feat-tag rain">🏛️ Trong nhà (Tránh mưa)</span>` : ''}
+                      </div>
+                      <div class="place-meta-actions">
+                        <span class="match-pill">Độ khớp: ${act.jaccard_match}%</span>
+                        ${act.place.link ? `<a href="${act.place.link}" target="_blank" rel="noopener noreferrer" class="map-link-btn">Xem Google Maps ↗</a>` : ''}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      // Action Footer Bar
+      html += `
+        <div class="action-footer-bar" style="display:flex; gap:12px; margin-top:28px; flex-wrap:wrap;">
+          <button type="button" class="btn btn-secondary btn-lg" style="flex:1; min-width:200px;" onclick="window.print()">
+            In lịch trình (PDF)
+          </button>
+          <a href="survey.html" class="btn btn-primary btn-lg" style="flex:1; min-width:200px;">
+            Đánh giá lịch trình này
+          </a>
+        </div>
+      `;
+
+      container.innerHTML = html;
+      initLeafletMap(days, dayColors);
+    }
+
+    // Dựng bản đồ Leaflet mượt mà
+    function initLeafletMap(days, dayColors) {
+      const mapDiv = document.getElementById("map");
+      if (!mapDiv) return;
+
+      if (leafletMap) {
+        leafletMap.remove();
+        leafletMap = null;
+      }
+      mapMarkers = [];
+      mapPolylines = [];
+
+      let allCoords = [];
+      days.forEach(day => {
+        day.activities.forEach(act => {
+          if (act.place && act.place.lat && act.place.lng) {
+            allCoords.push([act.place.lat, act.place.lng]);
+          }
+        });
+      });
+
+      if (allCoords.length === 0) return;
+
+      leafletMap = L.map('map', { zoomControl: true }).setView(allCoords[0], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap'
+      }).addTo(leafletMap);
+
+      // Force size update
+      setTimeout(() => {
+        if (leafletMap) leafletMap.invalidateSize();
+      }, 200);
+
+      window.addEventListener('resize', () => {
+        if (leafletMap) leafletMap.invalidateSize();
+      });
+
+      days.forEach((day, dayIdx) => {
+        const color = dayColors[dayIdx % dayColors.length];
+        const dayPoints = [];
+        const dayMarkersList = [];
+
+        day.activities.forEach(act => {
+          if (act.place && act.place.lat && act.place.lng) {
+            const pt = [act.place.lat, act.place.lng];
+            dayPoints.push(pt);
+
+            const customIcon = L.divIcon({
+              className: 'custom-map-marker',
+              html: `<div style="background:${color}; color:#fff; width:26px; height:26px; border-radius:50%; display:grid; place-items:center; font-weight:800; font-size:12px; border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,0.25);">${act.order}</div>`,
+              iconSize: [26, 26],
+              iconAnchor: [13, 13]
+            });
+
+            const m = L.marker(pt, { icon: customIcon })
+              .addTo(leafletMap)
+              .bindPopup(`
+                <div style="font-family:system-ui; font-size:13px; line-height:1.4;">
+                  <b style="font-size:13.5px; color:${color};">${act.order}. ${act.place.name}</b><br>
+                  <span>⏰ ${act.time} · ${act.category}</span><br>
+                  <small style="color:#64748b;">${act.place.new_address || ''}</small>
+                </div>
+              `);
+            dayMarkersList.push(m);
+          }
+        });
+
+        let line = null;
+        if (dayPoints.length > 1) {
+          line = L.polyline(dayPoints, {
+            color: color,
+            weight: 3.5,
+            opacity: 0.85,
+            dashArray: '6, 6'
+          }).addTo(leafletMap);
+        }
+
+        mapMarkers.push(dayMarkersList);
+        mapPolylines.push(line);
+      });
+
+      leafletMap.fitBounds(allCoords, { padding: [36, 36] });
+    }
+
+    // Lọc xem lộ trình từng ngày trên bản đồ
+    window.filterMapDay = function(targetIdx) {
+      const pills = document.querySelectorAll("#mapPills button");
+      pills.forEach((p, idx) => p.classList.toggle("active", idx === (targetIdx + 1)));
+
+      if (!leafletMap) return;
+
+      let boundsCoords = [];
+      cachedDaysData.forEach((day, dIdx) => {
+        const isVisible = (targetIdx === -1 || targetIdx === dIdx);
+        
+        if (mapMarkers[dIdx]) {
+          mapMarkers[dIdx].forEach(m => {
+            if (isVisible) {
+              m.addTo(leafletMap);
+              boundsCoords.push(m.getLatLng());
+            } else {
+              leafletMap.removeLayer(m);
+            }
+          });
+        }
+
+        if (mapPolylines[dIdx]) {
+          if (isVisible) {
+            mapPolylines[dIdx].addTo(leafletMap);
+          } else {
+            leafletMap.removeLayer(mapPolylines[dIdx]);
+          }
+        }
+      });
+
+      if (boundsCoords.length > 0) {
+        leafletMap.fitBounds(boundsCoords, { padding: [36, 36] });
+      }
+      setTimeout(() => {
+        if (leafletMap) leafletMap.invalidateSize();
+      }, 100);
+    };
+  </script>
+</body>
+</html>
