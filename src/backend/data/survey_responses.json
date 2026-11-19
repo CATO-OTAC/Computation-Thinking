@@ -1,0 +1,623 @@
+[
+  {
+    "survey_id": "SRV_20261105_034301",
+    "user_id": "USR_7108",
+    "timestamp": "2026-11-05T03:43:01.460382",
+    "average_score": 3.6,
+    "comment": "meo",
+    "responses": [
+      {
+        "question_id": "Q1",
+        "tag": "UI",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 3
+      },
+      {
+        "question_id": "Q2",
+        "tag": "Performance",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 3
+      },
+      {
+        "question_id": "Q3",
+        "tag": "Input_Usability",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 2
+      },
+      {
+        "question_id": "Q4",
+        "tag": "Destination",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 4
+      },
+      {
+        "question_id": "Q5",
+        "tag": "Schedule",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 4
+      },
+      {
+        "question_id": "Q6",
+        "tag": "Rest_Time",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 4
+      },
+      {
+        "question_id": "Q7",
+        "tag": "Cost",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 4
+      },
+      {
+        "question_id": "Q8",
+        "tag": "Satisfaction",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 4
+      },
+      {
+        "question_id": "Q9",
+        "tag": "Retention",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 4
+      },
+      {
+        "question_id": "Q10",
+        "tag": "Recommendation",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 4
+      }
+    ]
+  },
+  {
+    "survey_id": "SRV_20261105_034404",
+    "user_id": "USR_8992",
+    "timestamp": "2026-11-05T03:44:04.975083",
+    "average_score": 3.2,
+    "comment": "gou",
+    "responses": [
+      {
+        "question_id": "Q1",
+        "tag": "UI",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 2
+      },
+      {
+        "question_id": "Q2",
+        "tag": "Performance",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 2
+      },
+      {
+        "question_id": "Q3",
+        "tag": "Input_Usability",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 4
+      },
+      {
+        "question_id": "Q4",
+        "tag": "Destination",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 1
+      },
+      {
+        "question_id": "Q5",
+        "tag": "Schedule",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 4
+      },
+      {
+        "question_id": "Q6",
+        "tag": "Rest_Time",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q7",
+        "tag": "Cost",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 3
+      },
+      {
+        "question_id": "Q8",
+        "tag": "Satisfaction",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 3
+      },
+      {
+        "question_id": "Q9",
+        "tag": "Retention",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 4
+      },
+      {
+        "question_id": "Q10",
+        "tag": "Recommendation",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 4
+      }
+    ]
+  },
+  {
+    "survey_id": "SRV_20261119_022636",
+    "user_id": "demo_traveler@travelplanner.vn",
+    "timestamp": "2026-11-19T02:26:36.427276",
+    "average_score": 5.0,
+    "comment": "",
+    "responses": [
+      {
+        "question_id": "Q1",
+        "tag": "UI",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q2",
+        "tag": "Performance",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q3",
+        "tag": "Input_Usability",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q4",
+        "tag": "Destination",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q5",
+        "tag": "Schedule",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q6",
+        "tag": "Rest_Time",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q7",
+        "tag": "Cost",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q8",
+        "tag": "Satisfaction",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q9",
+        "tag": "Retention",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q10",
+        "tag": "Recommendation",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      }
+    ]
+  },
+  {
+    "survey_id": "SRV_20261119_023106",
+    "user_id": "demo_traveler@travelplanner.vn",
+    "timestamp": "2026-11-19T02:31:06.381856",
+    "average_score": 5.0,
+    "comment": "",
+    "responses": [
+      {
+        "question_id": "Q1",
+        "tag": "UI",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q2",
+        "tag": "Performance",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q3",
+        "tag": "Input_Usability",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q4",
+        "tag": "Destination",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q5",
+        "tag": "Schedule",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q6",
+        "tag": "Rest_Time",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q7",
+        "tag": "Cost",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q8",
+        "tag": "Satisfaction",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q9",
+        "tag": "Retention",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q10",
+        "tag": "Recommendation",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      }
+    ]
+  },
+  {
+    "survey_id": "SRV_20261119_025618",
+    "user_id": "demo_traveler@travelplanner.vn",
+    "timestamp": "2026-11-19T02:56:18.991240",
+    "average_score": 5.0,
+    "comment": "",
+    "responses": [
+      {
+        "question_id": "Q1",
+        "tag": "UI",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q2",
+        "tag": "Performance",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q3",
+        "tag": "Input_Usability",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q4",
+        "tag": "Destination",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q5",
+        "tag": "Schedule",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q6",
+        "tag": "Rest_Time",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q7",
+        "tag": "Cost",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q8",
+        "tag": "Satisfaction",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q9",
+        "tag": "Retention",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q10",
+        "tag": "Recommendation",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      }
+    ]
+  },
+  {
+    "survey_id": "SRV_20261119_035332",
+    "user_id": "ANONYMOUS_USER",
+    "timestamp": "2026-11-19T03:53:32.069445",
+    "average_score": 5.0,
+    "comment": "",
+    "responses": [
+      {
+        "question_id": "Q1",
+        "tag": "UI",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q2",
+        "tag": "Performance",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q3",
+        "tag": "Input_Usability",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q4",
+        "tag": "Destination",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q5",
+        "tag": "Schedule",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q6",
+        "tag": "Rest_Time",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q7",
+        "tag": "Cost",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q8",
+        "tag": "Satisfaction",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q9",
+        "tag": "Retention",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q10",
+        "tag": "Recommendation",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      }
+    ]
+  },
+  {
+    "survey_id": "SRV_20261119_040418",
+    "user_id": "ANONYMOUS_USER",
+    "timestamp": "2026-11-19T04:04:18.706746",
+    "average_score": 5.0,
+    "comment": "",
+    "responses": [
+      {
+        "question_id": "Q1",
+        "tag": "UI",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q2",
+        "tag": "Performance",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q3",
+        "tag": "Input_Usability",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q4",
+        "tag": "Destination",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q5",
+        "tag": "Schedule",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q6",
+        "tag": "Rest_Time",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q7",
+        "tag": "Cost",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q8",
+        "tag": "Satisfaction",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q9",
+        "tag": "Retention",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q10",
+        "tag": "Recommendation",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      }
+    ]
+  },
+  {
+    "survey_id": "SRV_20261119_040434",
+    "user_id": "ANONYMOUS_USER",
+    "timestamp": "2026-11-19T04:04:34.333426",
+    "average_score": 5.0,
+    "comment": "",
+    "responses": [
+      {
+        "question_id": "Q1",
+        "tag": "UI",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q2",
+        "tag": "Performance",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q3",
+        "tag": "Input_Usability",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q4",
+        "tag": "Destination",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q5",
+        "tag": "Schedule",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q6",
+        "tag": "Rest_Time",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q7",
+        "tag": "Cost",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q8",
+        "tag": "Satisfaction",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q9",
+        "tag": "Retention",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q10",
+        "tag": "Recommendation",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      }
+    ]
+  },
+  {
+    "survey_id": "SRV_20261119_214035",
+    "user_id": "ANONYMOUS_USER",
+    "timestamp": "2026-11-19T21:40:35.367511",
+    "average_score": 5.0,
+    "comment": "",
+    "responses": [
+      {
+        "question_id": "Q1",
+        "tag": "UI",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q2",
+        "tag": "Performance",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q3",
+        "tag": "Input_Usability",
+        "group": "Nhóm 1: Trải nghiệm sử dụng ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q4",
+        "tag": "Destination",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q5",
+        "tag": "Schedule",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q6",
+        "tag": "Rest_Time",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q7",
+        "tag": "Cost",
+        "group": "Nhóm 2: Chất lượng gợi ý của ứng dụng",
+        "score": 5
+      },
+      {
+        "question_id": "Q8",
+        "tag": "Satisfaction",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q9",
+        "tag": "Retention",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      },
+      {
+        "question_id": "Q10",
+        "tag": "Recommendation",
+        "group": "Nhóm 3: Mức độ hài lòng của người dùng",
+        "score": 5
+      }
+    ]
+  }
+]

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đánh Giá Lịch Trình | Travel Planner</title>
+  
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%230284c7%22 stroke-width=%222%22><path d=%22m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z%22/><path d=%22m11.1 14.3 3.6-4.4%22/></svg>">
+
+  <style>
+    .survey-layout {
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+      margin: 28px 0 60px;
+      padding: 0 28px;
+    }
+
+    @media (max-width: 768px) {
+      .survey-layout {
+        margin: 20px 0 40px;
+        padding: 0 16px;
+      }
+    }
+
+    /* Main Content Card (Single Column) */
+    .survey-main-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 32px 36px;
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 600px) {
+      .survey-main-card {
+        padding: 22px 16px;
+      }
+    }
+
+    .survey-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: var(--brand-50);
+      color: var(--brand-700);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    /* Progress box on top of the form, aligned with groups and question cards */
+    .progress-box {
+      display: block;
+      background: var(--slate-50);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      margin: 20px 0 28px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .progress-text-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--slate-700);
+      margin-bottom: 8px;
+    }
+
+    .progress-text-row #progressLabel {
+      color: var(--brand-600);
+      font-family: var(--font-mono);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--slate-200);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--brand-600);
+      border-radius: var(--radius-full);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Group fieldset */
+    .survey-group-fieldset {
+      border: none;
+      padding: 0;
+      margin: 0 0 28px 0;
+      scroll-margin-top: 90px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Group Divider: Nền đậm (var(--slate-900)) như bản cũ, chữ trắng, căn chuẩn 2 mép */
+    .group-divider {
+      background: var(--slate-900);
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 13px 20px;
+      margin: 32px 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .survey-group-fieldset:first-child .group-divider {
+      margin-top: 12px;
+    }
+
+    .group-title-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .group-number-pill {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--brand-300);
+      background: rgba(255, 255, 255, 0.12);
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    .group-name-text {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.2px;
+    }
+
+    .group-item-count {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--slate-300);
+    }
+
+    /* Question Item */
+    .question-block {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      scroll-margin-top: 90px;
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+    }
+
+    .question-block.is-missing {
+      border-color: #ef4444;
+      background: #fffafa;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+
+    .question-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .q-number-pill {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--brand-600);
+      background: var(--brand-50);
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    .q-status-pill {
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      display: none;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .q-status-pill.answered {
+      display: inline-flex;
+      color: #059669;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+    }
+
+    .q-status-pill.missing {
+      display: inline-flex;
+      color: #dc2626;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+    }
+
+    .question-title-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--slate-900);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    /* Likert options grid: 5 ô đáp án chia thành 5 cột bằng nhau trên desktop, khoảng cách đều */
+    .likert-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .likert-card-btn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 6px;
+      min-height: 72px;
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      background: var(--slate-50);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      user-select: none;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .likert-card-btn input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    /* Vòng tròn radio hiện rõ trong từng ô đáp án */
+    .likert-radio-indicator {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--slate-300);
+      margin-bottom: 6px;
+      display: grid;
+      place-items: center;
+      transition: border-color var(--transition-fast);
+      flex-shrink: 0;
+      box-sizing: border-box;
+    }
+
+    .likert-radio-indicator::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: transparent;
+      transition: background-color var(--transition-fast);
+    }
+
+    .likert-score-val {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--slate-800);
+      line-height: 1.2;
+      margin-bottom: 2px;
+      transition: color var(--transition-fast);
+    }
+
+    .likert-sub-txt {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--slate-500);
+      line-height: 1.2;
+      transition: color var(--transition-fast);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .likert-card-btn:hover {
+      background: #f8fafc;
+      border-color: var(--brand-300);
+    }
+
+    .likert-card-btn:focus-within {
+      outline: 2px solid var(--brand-600);
+      outline-offset: 2px;
+    }
+
+    /* Trạng thái được chọn: vòng tròn có chấm bên trong và ô có viền/nền nhấn như bản cũ */
+    .likert-card-btn.selected,
+    .likert-card-btn:has(input[type="radio"]:checked) {
+      background: #f0f9ff !important;
+      border-color: var(--brand-600) !important;
+      box-shadow: 0 0 0 1px var(--brand-600);
+    }
+
+    .likert-card-btn.selected .likert-radio-indicator,
+    .likert-card-btn:has(input[type="radio"]:checked) .likert-radio-indicator {
+      border-color: var(--brand-600) !important;
+    }
+
+    .likert-card-btn.selected .likert-radio-indicator::after,
+    .likert-card-btn:has(input[type="radio"]:checked) .likert-radio-indicator::after {
+      background: var(--brand-600) !important;
+    }
+
+    .likert-card-btn.selected .likert-score-val,
+    .likert-card-btn:has(input[type="radio"]:checked) .likert-score-val {
+      color: var(--brand-700) !important;
+    }
+
+    .likert-card-btn.selected .likert-sub-txt,
+    .likert-card-btn:has(input[type="radio"]:checked) .likert-sub-txt {
+      color: var(--brand-900) !important;
+      font-weight: 700;
+    }
+
+    /* Trên điện thoại, cho các ô xuống hàng, giữ thứ tự 1-5 và tránh cuộn ngang */
+    @media (max-width: 640px) {
+      .likert-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .likert-card-btn {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 12px 16px;
+        min-height: 48px;
+        gap: 12px;
+        text-align: left;
+      }
+
+      .likert-radio-indicator {
+        margin-bottom: 0;
+      }
+
+      .likert-score-val {
+        margin-bottom: 0;
+        width: 18px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .likert-sub-txt {
+        -webkit-line-clamp: 1;
+        flex: 1;
+        font-size: 13px;
+      }
+    }
+
+    /* Comment area */
+    .comment-card {
+      background: var(--slate-50);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-top: 24px;
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+    }
+
+    .comment-area-input {
+      width: 100%;
+      height: 90px;
+      padding: 10px 14px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      background: #fff;
+      resize: vertical;
+      transition: all var(--transition-fast);
+      box-sizing: border-box;
+    }
+
+    .comment-area-input:focus {
+      outline: none;
+      border-color: var(--brand-600);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    /* Validation notice banner */
+    .validation-alert-banner {
+      display: none;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius-lg);
+      padding: 14px 18px;
+      margin-top: 20px;
+      color: #991b1b;
+      font-size: 13.5px;
+      font-weight: 600;
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+    }
+
+    /* Success box */
+    .success-celebration-card {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    .score-banner-box {
+      display: inline-block;
+      padding: 14px 28px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: var(--radius-xl);
+      margin: 20px 0;
+    }
+
+    .score-banner-val {
+      font-size: 34px;
+      font-weight: 800;
+      color: #047857;
+      letter-spacing: -0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIFIED APP NAVBAR -->
+  <header class="app-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon-box" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z"/>
+            <path d="m11.1 14.3 3.6-4.4"/>
+          </svg>
+        </div>
+        <span>Travel Planner</span>
+      </a>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="nav-toggle-btn" aria-label="Mở menu điều hướng" aria-expanded="false" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Nav Links -->
+      <nav class="nav-links-wrap" aria-label="Điều hướng chính">
+        <a href="index.html" class="nav-item">Trang chủ</a>
+        <a href="planner.html" class="nav-item" data-nav="planner">Lập lịch trình</a>
+        <a href="survey.html" class="nav-item active" data-nav="survey" aria-current="page">Đánh giá</a>
+        <a href="manager.html" id="nav-manager-link" class="nav-item" data-nav="manager" style="display:none;">Quản lý địa điểm</a>
+        <a href="dashboard.html" id="nav-user-badge" class="user-badge-pill" style="display:none;" title="Tài khoản">
+          <span aria-hidden="true">👤</span>
+          <span id="nav-username" class="user-name-text">Tài khoản</span>
+        </a>
+        <a href="login.html" id="nav-auth-link" class="btn btn-primary btn-sm">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="survey-layout animate-fade-in">
+    
+    <!-- CỘT CHÍNH: KHẢO SÁT & TIÊU ĐỀ NHÓM -->
+    <section class="survey-main-card">
+      
+      <!-- SURVEY FORM WRAPPER -->
+      <div id="survey-form-wrap">
+        <span class="survey-hero-badge">Đánh giá trải nghiệm</span>
+        <h1 style="font-size:24px; font-weight:800; color:var(--slate-900); letter-spacing:-0.4px; margin-bottom:6px;">
+          Đánh giá lịch trình
+        </h1>
+        <p style="color:var(--slate-600); font-size:14px; line-height:1.5; margin-bottom:20px;">
+          Ý kiến đóng góp của bạn giúp hệ thống liên tục nâng cao độ chính xác và chất lượng gợi ý cho các hành trình tiếp theo.
+        </p>
+
+        <!-- TOP PROGRESS BOX (FALLBACK FOR JS COMPATIBILITY) -->
+        <div class="progress-box" aria-live="polite">
+          <div class="progress-text-row">
+            <span>Tiến độ hoàn thành:</span>
+            <span id="progressLabel">0 / 10 câu hỏi (0%)</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progressTrack">
+            <div class="progress-fill" id="progressBar"></div>
+          </div>
+        </div>
+
+        <form id="surveyForm" novalidate>
+          <div id="questionsContainer">
+            <div style="text-align:center; padding:48px; color:var(--slate-400);">
+              Đang tải bộ câu hỏi khảo sát...
+            </div>
+          </div>
+
+          <!-- COMMENT AREA -->
+          <div class="comment-card">
+            <label for="surveyComment" style="font-weight:700; font-size:13.5px; color:var(--slate-800); display:block; margin-bottom:6px;">
+              Ý kiến góp ý thêm (Không bắt buộc):
+            </label>
+            <textarea id="surveyComment" class="comment-area-input" placeholder="Ví dụ: Bạn muốn gợi ý thêm địa điểm nào, hay điều chỉnh thời gian giữa các điểm đến ra sao?"></textarea>
+          </div>
+
+          <!-- VALIDATION NOTICE BANNER -->
+          <div id="validationAlert" class="validation-alert-banner" role="alert"></div>
+
+          <!-- SUBMIT BUTTON -->
+          <button type="submit" class="btn btn-primary btn-lg" id="btnSubmitSurvey" style="width:100%; margin-top:20px;">
+            Gửi đánh giá
+          </button>
+        </form>
+      </div>
+
+      <!-- SUCCESS CONFIRMATION BOX -->
+      <div id="successBox" class="success-celebration-card">
+        <div style="font-size:48px; margin-bottom:12px;">🎉</div>
+        <h2 style="font-size:24px; font-weight:800; color:var(--slate-900); margin-bottom:6px;">
+          Cảm ơn bạn đã hoàn thành đánh giá!
+        </h2>
+        <p style="color:var(--slate-600); font-size:14px; max-width:480px; margin:0 auto; line-height:1.5;">
+          Ý kiến phản hồi của bạn đã được ghi nhận thành công và chuyển đến bộ phận phát triển để hoàn thiện sản phẩm.
+        </p>
+
+        <div class="score-banner-box">
+          <div style="font-size:12px; font-weight:700; color:#065f46; text-transform:uppercase; margin-bottom:4px;">Điểm đánh giá trung bình</div>
+          <div class="score-banner-val" id="displayScore">5.0 / 5.0 ⭐</div>
+        </div>
+
+        <div style="font-family:var(--font-mono); font-size:12.5px; color:var(--slate-500); margin-bottom:28px;" id="displaySurveyId">
+          Mã phản hồi: SRV_2026...
+        </div>
+
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="planner.html" class="btn btn-primary">
+            Lập lịch trình chuyến đi mới
+          </a>
+          <a href="dashboard.html" class="btn btn-secondary">
+            Về bảng điều khiển
+          </a>
+          <a href="index.html" class="btn btn-secondary">
+            Trang chủ
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- UNIFIED FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div>
+        <strong>Travel Planner</strong> · Đề tài Tư duy tính toán (CSC10014) · Nhóm 02
+      </div>
+      <div style="display:flex; gap:16px;">
+        <a href="planner.html">Lập lịch trình</a>
+        <a href="survey.html">Đánh giá</a>
+        <a href="dashboard.html">Tài khoản</a>
+        <a href="terms.html">Điều khoản</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initGlobalNav } from "./js/nav.js?v=8";
+    import { SessionStorage } from "./js/api.js?v=8";
+
+    initGlobalNav("survey");
+
+    let questionsList = [];
+
+    async function loadQuestions() {
+      try {
+        const res = await fetch("/api/survey/questions");
+        questionsList = await res.json();
+        renderQuestions(questionsList);
+        updateProgress(); // Khởi tạo ở 0 / 10 câu hỏi (0%)
+      } catch (e) {
+        document.getElementById("questionsContainer").innerHTML = `
+          <div style="text-align:center; color:var(--danger); padding:36px;">
+            Không thể tải câu hỏi từ máy chủ. Vui lòng kiểm tra lại dịch vụ backend.
+          </div>
+        `;
+      }
+    }
+
+    function renderQuestions(questions) {
+      const container = document.getElementById("questionsContainer");
+      container.innerHTML = "";
+
+      let currentGroup = "";
+      let currentFieldset = null;
+      let groupCounter = 0;
+
+      questions.forEach((q, idx) => {
+        // Grouping
+        if (q.group && q.group !== currentGroup) {
+          currentGroup = q.group;
+          groupCounter++;
+          const cleanGroupName = currentGroup.replace(/^Nhóm \d+:\s*/, '');
+          const grpCount = questions.filter(item => item.group === currentGroup).length;
+          
+          currentFieldset = document.createElement("fieldset");
+          currentFieldset.className = "survey-group-fieldset";
+          currentFieldset.id = `group_sec_${groupCounter}`;
+          currentFieldset.innerHTML = `
+            <legend class="sr-only">${currentGroup}</legend>
+            <div class="group-divider">
+              <div class="group-title-content">
+                <span class="group-number-pill">Nhóm ${groupCounter}</span>
+                <span class="group-name-text">${cleanGroupName}</span>
+              </div>
+              <span class="group-item-count">${grpCount} câu hỏi</span>
+            </div>
+          `;
+          container.appendChild(currentFieldset);
+        }
+
+        const options = q.options || ["Rất tệ", "Tệ", "Bình thường", "Tốt", "Xuất sắc"];
+
+        const qBlock = document.createElement("div");
+        qBlock.className = "question-block";
+        qBlock.id = `block_${q.id}`;
+        qBlock.setAttribute("role", "radiogroup");
+        qBlock.setAttribute("aria-labelledby", `qtitle_${q.id}`);
+
+        let optionsHtml = `<div class="likert-grid">`;
+        options.forEach((optText, valIdx) => {
+          const score = valIdx + 1;
+          const cleanOptText = optText.replace(/^\d+\s*[-–]\s*/, '').trim();
+          optionsHtml += `
+            <label class="likert-card-btn" id="label_${q.id}_${score}" for="radio_${q.id}_${score}">
+              <input type="radio" id="radio_${q.id}_${score}" name="${q.id}" value="${score}" onchange="handleLikertChange('${q.id}', ${score})">
+              <span class="likert-radio-indicator" aria-hidden="true"></span>
+              <span class="likert-score-val">${score}</span>
+              <span class="likert-sub-txt">${cleanOptText}</span>
+            </label>
+          `;
+        });
+        optionsHtml += `</div>`;
+
+        qBlock.innerHTML = `
+          <div class="question-meta-row">
+            <span class="q-number-pill">Câu ${idx + 1} / ${questions.length}</span>
+            <span class="q-status-pill" id="status_${q.id}" style="display:none;"></span>
+          </div>
+          <div class="question-title-text" id="qtitle_${q.id}">${q.text}</div>
+          ${optionsHtml}
+        `;
+
+        if (currentFieldset) {
+          currentFieldset.appendChild(qBlock);
+        } else {
+          container.appendChild(qBlock);
+        }
+      });
+    }
+
+    window.handleLikertChange = function(qId, score) {
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`label_${qId}_${i}`);
+        if (el) el.classList.toggle("selected", i === score);
+      }
+      
+      const block = document.getElementById(`block_${qId}`);
+      if (block) block.classList.remove("is-missing");
+
+      const statusPill = document.getElementById(`status_${qId}`);
+      if (statusPill) {
+        statusPill.textContent = "✓ Đã chọn";
+        statusPill.className = "q-status-pill answered";
+        statusPill.style.display = "inline-flex";
+      }
+
+      // Hide validation alert if user is fixing
+      const alertBox = document.getElementById("validationAlert");
+      if (alertBox) alertBox.style.display = "none";
+
+      updateProgress();
+    };
+
+    function updateProgress() {
+      if (!questionsList || questionsList.length === 0) return;
+      let answeredCount = 0;
+
+      questionsList.forEach(q => {
+        const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+        if (checked) {
+          answeredCount++;
+        }
+      });
+
+      const pct = Math.round((answeredCount / questionsList.length) * 100);
+      
+      const label = document.getElementById("progressLabel");
+      const bar = document.getElementById("progressBar");
+      const track = document.getElementById("progressTrack");
+      if (label) label.textContent = `${answeredCount} / ${questionsList.length} câu hỏi (${pct}%)`;
+      if (bar) bar.style.width = `${pct}%`;
+      if (track) track.setAttribute("aria-valuenow", String(pct));
+    }
+
+    document.getElementById("surveyForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const missingQuestions = [];
+      const answers = {};
+
+      questionsList.forEach((q, idx) => {
+        const checked = document.querySelector(`input[name="${q.id}"]:checked`);
+        if (checked) {
+          answers[q.id] = parseInt(checked.value);
+        } else {
+          missingQuestions.push({ id: q.id, index: idx + 1 });
+        }
+      });
+
+      // Nếu còn câu chưa trả lời: Báo lỗi và cuộn đến câu thiếu đầu tiên
+      if (missingQuestions.length > 0) {
+        const missingNums = missingQuestions.map(m => `Câu ${m.index}`).join(", ");
+        const alertBox = document.getElementById("validationAlert");
+        if (alertBox) {
+          alertBox.textContent = `Vui lòng hoàn thành ${missingQuestions.length} câu hỏi còn thiếu (${missingNums}) trước khi gửi đánh giá.`;
+          alertBox.style.display = "block";
+        }
+
+        // Highlight missing questions and show "Chưa trả lời" pill
+        missingQuestions.forEach(m => {
+          const el = document.getElementById(`block_${m.id}`);
+          if (el) el.classList.add("is-missing");
+          const pill = document.getElementById(`status_${m.id}`);
+          if (pill) {
+            pill.textContent = "Chưa trả lời";
+            pill.className = "q-status-pill missing";
+            pill.style.display = "inline-flex";
+          }
+        });
+
+        const firstMissing = document.getElementById(`block_${missingQuestions[0].id}`);
+        if (firstMissing) {
+          firstMissing.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        return;
+      }
+
+      const user = SessionStorage.getUser();
+      const payload = {
+        user_id: user ? user.email : "ANONYMOUS_USER",
+        answers: answers,
+        comment: document.getElementById("surveyComment").value
+      };
+
+      const btn = document.getElementById("btnSubmitSurvey");
+      btn.disabled = true;
+      btn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="animate-spin" style="animation: spin 1s linear infinite;">
+          <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/>
+        </svg>
+        Đang ghi nhận đánh giá...
+      `;
+
+      try {
+        const res = await fetch("/api/survey/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          document.getElementById("survey-form-wrap").style.display = "none";
+          document.getElementById("successBox").style.display = "block";
+          document.getElementById("displayScore").textContent = `${data.average_score} / 5.0 ⭐`;
+          document.getElementById("displaySurveyId").textContent = `Mã phản hồi: ${data.survey_id}`;
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          alert(`❌ ${data.detail || "Không thể gửi khảo sát"}`);
+          btn.disabled = false;
+          btn.textContent = "Gửi đánh giá";
+        }
+      } catch (err) {
+        alert("Lỗi kết nối tới máy chủ.");
+        btn.disabled = false;
+        btn.textContent = "Gửi đánh giá";
+      }
+    });
+
+    loadQuestions();
+  </script>
+</body>
+</html>
