@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Địa Điểm | Travel Planner</title>
+  
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%230284c7%22 stroke-width=%222%22><path d=%22m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z%22/><path d=%22m11.1 14.3 3.6-4.4%22/></svg>">
+
+  <style>
+    .manager-layout {
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+      margin: 28px 0 60px;
+      padding: 0 28px;
+      min-width: 0;
+      overflow-x: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .manager-layout {
+        padding: 0 16px;
+        margin: 20px 0 40px;
+      }
+    }
+
+    .manager-header-row {
+      margin-bottom: 24px;
+    }
+
+    .manager-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: var(--brand-50);
+      color: var(--brand-700);
+      border: 1px solid var(--brand-200);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    /* Controls Panel */
+    .controls-panel {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .city-pills-wrap {
+      display: flex;
+      gap: 6px;
+      background: var(--slate-100);
+      padding: 4px;
+      border-radius: var(--radius-lg);
+    }
+
+    .city-pill-btn {
+      padding: 7px 16px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: transparent;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--slate-600);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .city-pill-btn:hover {
+      color: var(--slate-900);
+    }
+
+    .city-pill-btn.active {
+      background: #fff;
+      color: var(--brand-600);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .search-filter-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 260px;
+      max-width: 520px;
+    }
+
+    .search-box-ui {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-box-ui svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--slate-400);
+      pointer-events: none;
+    }
+
+    .search-input-field {
+      width: 100%;
+      padding: 9px 12px 9px 34px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      background: var(--slate-50);
+      transition: all var(--transition-fast);
+    }
+
+    .search-input-field:focus {
+      outline: none;
+      background: #fff;
+      border-color: var(--brand-600);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+    }
+
+    /* Badges */
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-attr { background: #e0f2fe; color: #0369a1; }
+    .badge-rest { background: #dcfce7; color: #15803d; }
+    .badge-cafe { background: #fef3c7; color: #b45309; }
+    .badge-hotel { background: #f3e8ff; color: #6d28d9; }
+
+    /* Modal dialog */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: none;
+      place-items: center;
+      z-index: 2000;
+      padding: 16px;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: var(--radius-xl);
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: var(--shadow-xl);
+      animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .modal-header-row h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin: 0;
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--slate-400);
+      transition: all var(--transition-fast);
+    }
+
+    .btn-close-modal:hover {
+      background: var(--slate-100);
+      color: var(--slate-800);
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .form-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIFIED APP NAVBAR -->
+  <header class="app-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon-box" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z"/>
+            <path d="m11.1 14.3 3.6-4.4"/>
+          </svg>
+        </div>
+        <span>Travel Planner</span>
+      </a>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="nav-toggle-btn" aria-label="Mở menu điều hướng" aria-expanded="false" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Nav Links -->
+      <nav class="nav-links-wrap" aria-label="Điều hướng chính">
+        <a href="index.html" class="nav-item">Trang chủ</a>
+        <a href="planner.html" class="nav-item" data-nav="planner">Lập lịch trình</a>
+        <a href="survey.html" class="nav-item" data-nav="survey">Đánh giá</a>
+        <a href="manager.html" class="nav-item active" data-nav="manager" aria-current="page">Quản lý địa điểm</a>
+        <a href="dashboard.html" id="nav-user-badge" class="user-badge-pill" style="display:none;" title="Tài khoản">
+          <span aria-hidden="true">👤</span>
+          <span id="nav-username" class="user-name-text">Quản trị viên</span>
+        </a>
+        <a href="login.html" id="nav-auth-link" class="btn btn-primary btn-sm">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="manager-layout animate-fade-in">
+    
+    <!-- HEADER TITLE -->
+    <div class="manager-header-row">
+      <span class="manager-header-badge">Hệ thống quản trị cơ sở dữ liệu</span>
+      <h1 style="font-size:24px; font-weight:800; color:var(--slate-900); letter-spacing:-0.4px;">
+        Quản lý địa điểm
+      </h1>
+      <p style="color:var(--slate-500); font-size:14px; margin-top:2px;">
+        Theo dõi, tìm kiếm, lọc và cập nhật danh mục địa điểm tham quan tại Đà Lạt và Nha Trang.
+      </p>
+    </div>
+
+    <!-- STATS METRICS -->
+    <section class="metric-grid" aria-label="Thống kê cơ sở dữ liệu">
+      <div class="metric-card">
+        <span class="metric-label">Tổng số địa điểm</span>
+        <span class="metric-val brand" id="stat-total-pois">64</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Phân bố thành phố</span>
+        <span class="metric-val" style="color:#059669;" id="stat-pois-split">29 ĐL / 35 NT</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Mức độ hài lòng trung bình</span>
+        <span class="metric-val purple" id="stat-satisfaction">--</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Trạng thái dữ liệu</span>
+        <span class="metric-val" style="color:var(--brand-600); font-size:16px;">
+          ● Đồng bộ thời gian thực
+        </span>
+      </div>
+    </section>
+
+    <!-- CONTROLS & FILTER BAR -->
+    <div class="controls-panel">
+      <!-- CITY TABS -->
+      <div class="city-pills-wrap" role="tablist" aria-label="Chọn thành phố">
+        <button class="city-pill-btn active" id="tab-dalat" role="tab" aria-selected="true" onclick="switchCity('Đà Lạt')">
+          Đà Lạt (29)
+        </button>
+        <button class="city-pill-btn" id="tab-nhatrang" role="tab" aria-selected="false" onclick="switchCity('Nha Trang')">
+          Nha Trang (35)
+        </button>
+      </div>
+
+      <!-- SEARCH & FILTER -->
+      <div class="search-filter-wrap">
+        <div class="search-box-ui">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/>
+          </svg>
+          <input type="text" id="poiSearchInput" class="search-input-field" placeholder="Tìm theo tên địa điểm, khu vực..." oninput="handlePoiSearch()" aria-label="Tìm kiếm địa điểm">
+        </div>
+
+        <select id="typeFilterSelect" class="select-ui" style="width:auto; min-width:140px; padding:8px 12px; font-size:13px;" onchange="handlePoiSearch()" aria-label="Lọc theo loại hình">
+          <option value="ALL">Tất cả loại hình</option>
+          <option value="Attraction">Tham quan</option>
+          <option value="Restaurant">Ăn uống</option>
+          <option value="Café">Cà phê</option>
+          <option value="Accommodation">Lưu trú</option>
+        </select>
+      </div>
+
+      <!-- ADD POI BUTTON -->
+      <button type="button" class="btn btn-primary" onclick="openAddModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Thêm địa điểm
+      </button>
+    </div>
+
+    <!-- POI DATA TABLE -->
+    <div class="table-card">
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:50px; text-align:center;">STT</th>
+              <th style="min-width:220px;">Tên địa điểm</th>
+              <th style="width:120px;">Loại hình</th>
+              <th style="width:140px;">Khu vực</th>
+              <th style="width:120px;">Thời tiết</th>
+              <th style="width:140px; text-align:right;">Chi phí trung bình</th>
+              <th style="width:100px; text-align:center;">Đánh giá</th>
+              <th style="min-width:200px;">Địa chỉ</th>
+              <th style="width:90px; text-align:center;">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="poi-table-body">
+            <tr><td colspan="9" style="text-align:center; padding:36px; color:var(--slate-400);">Đang tải danh sách địa điểm...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL THÊM POI MỚI -->
+  <div class="modal-overlay" id="addPoiModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <div class="modal-header-row">
+        <h3 id="modalTitle">Thêm địa điểm mới</h3>
+        <button type="button" class="btn-close-modal" onclick="closeAddModal()" aria-label="Đóng biểu mẫu">&times;</button>
+      </div>
+
+      <form id="addPoiForm">
+        <div class="form-group-ui">
+          <label class="form-label-ui" for="modal-city">Thành phố:</label>
+          <select id="modal-city" class="select-ui">
+            <option value="Đà Lạt">Đà Lạt</option>
+            <option value="Nha Trang">Nha Trang</option>
+          </select>
+        </div>
+
+        <div class="form-group-ui">
+          <label class="form-label-ui" for="modal-name">Tên địa điểm:</label>
+          <input type="text" id="modal-name" class="input-ui" required placeholder="Ví dụ: Vườn Dâu Biofresh">
+        </div>
+
+        <div class="form-grid-2 form-group-ui">
+          <div>
+            <label class="form-label-ui" for="modal-type">Loại hình:</label>
+            <select id="modal-type" class="select-ui">
+              <option value="Attraction">Tham quan</option>
+              <option value="Restaurant">Ăn uống</option>
+              <option value="Café">Cà phê</option>
+              <option value="Accommodation">Lưu trú</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label-ui" for="modal-area">Khu vực / Cụm địa lý:</label>
+            <input type="text" id="modal-area" class="input-ui" placeholder="Trung tâm / Hồ Tuyền Lâm...">
+          </div>
+        </div>
+
+        <div class="form-grid-2 form-group-ui">
+          <div>
+            <label class="form-label-ui" for="modal-weather">Phù hợp thời tiết:</label>
+            <select id="modal-weather" class="select-ui">
+              <option value="Both">Cả trong nhà & ngoài trời</option>
+              <option value="Outdoor">Ngoài trời</option>
+              <option value="Indoor">Trong nhà (Tránh mưa)</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label-ui" for="modal-price">Chi phí trung bình (₫):</label>
+            <input type="number" id="modal-price" class="input-ui" value="50000" step="5000" min="0">
+          </div>
+        </div>
+
+        <div class="form-grid-2 form-group-ui">
+          <div>
+            <label class="form-label-ui" for="modal-lat">Tọa độ Vĩ độ (Lat):</label>
+            <input type="number" id="modal-lat" class="input-ui" step="0.0001" value="11.9450" required>
+          </div>
+          <div>
+            <label class="form-label-ui" for="modal-lng">Tọa độ Kinh độ (Lng):</label>
+            <input type="number" id="modal-lng" class="input-ui" step="0.0001" value="108.4420" required>
+          </div>
+        </div>
+
+        <div class="form-group-ui">
+          <label class="form-label-ui" for="modal-address">Địa chỉ chi tiết:</label>
+          <input type="text" id="modal-address" class="input-ui" required placeholder="Số nhà, tên đường, phường...">
+        </div>
+
+        <div class="form-group-ui">
+          <label class="form-label-ui" for="modal-vibes">Thẻ sở thích (cách nhau bởi dấu phẩy):</label>
+          <input type="text" id="modal-vibes" class="input-ui" value="Nature, Chill, Photography">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%; min-height:44px; margin-top:8px;">
+          Lưu địa điểm
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- UNIFIED FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div>
+        <strong>Travel Planner</strong> · Đề tài Tư duy tính toán (CSC10014) · Nhóm 02
+      </div>
+      <div style="display:flex; gap:16px;">
+        <a href="planner.html">Lập lịch trình</a>
+        <a href="survey.html">Đánh giá</a>
+        <a href="dashboard.html">Tài khoản</a>
+        <a href="terms.html">Điều khoản</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT QUẢN TRỊ VIÊN -->
+  <script type="module">
+    import { initGlobalNav } from "./js/nav.js?v=8";
+    initGlobalNav("manager");
+
+    let currentCity = "Đà Lạt";
+    let allCurrentPois = [];
+
+    // Nạp Thống Kê
+    async function loadAnalytics() {
+      try {
+        const res = await fetch("/api/manager/analytics");
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById("stat-total-pois").textContent = data.total_pois;
+          document.getElementById("stat-pois-split").textContent = `${data.pois_by_city['Đà Lạt']} ĐL / ${data.pois_by_city['Nha Trang']} NT`;
+          document.getElementById("stat-satisfaction").textContent = `${data.average_customer_satisfaction} / 5.0 ⭐`;
+        }
+      } catch (e) {
+        console.error("Lỗi nạp thống kê:", e);
+      }
+    }
+
+    // Nạp Bảng POIs
+    window.switchCity = function(city) {
+      currentCity = city;
+      const tabDL = document.getElementById("tab-dalat");
+      const tabNT = document.getElementById("tab-nhatrang");
+      tabDL.classList.toggle("active", city === "Đà Lạt");
+      tabDL.setAttribute("aria-selected", String(city === "Đà Lạt"));
+      tabNT.classList.toggle("active", city === "Nha Trang");
+      tabNT.setAttribute("aria-selected", String(city === "Nha Trang"));
+      
+      const latInput = document.getElementById("modal-lat");
+      const lngInput = document.getElementById("modal-lng");
+      if (city === "Đà Lạt") {
+        if (latInput) latInput.value = "11.9450";
+        if (lngInput) lngInput.value = "108.4420";
+      } else {
+        if (latInput) latInput.value = "12.2450";
+        if (lngInput) lngInput.value = "109.1950";
+      }
+
+      loadPoisTable();
+    };
+
+    async function loadPoisTable() {
+      const tbody = document.getElementById("poi-table-body");
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:36px; color:var(--slate-400);">Đang tải danh sách ${currentCity}...</td></tr>`;
+      
+      try {
+        const res = await fetch(`/api/manager/pois?city=${encodeURIComponent(currentCity)}`);
+        allCurrentPois = await res.json();
+        renderTableRows(allCurrentPois);
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--danger); padding:36px;">Không thể tải dữ liệu từ máy chủ.</td></tr>`;
+      }
+    }
+
+    function renderTableRows(pois) {
+      const tbody = document.getElementById("poi-table-body");
+      if (!pois || pois.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align:center; padding:40px; color:var(--slate-500);">
+              <div style="font-size:24px; margin-bottom:8px;">🔍</div>
+              <strong>Không tìm thấy địa điểm phù hợp</strong>
+              <div style="font-size:12.5px; color:var(--slate-400); margin-top:4px;">Hãy thử điều chỉnh từ khóa tìm kiếm hoặc bộ lọc loại hình.</div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      const vibeMap = {
+        "Chill": "Thư giãn",
+        "Relaxation": "Thư giãn",
+        "Nature": "Thiên nhiên",
+        "View_Hunting": "Ngắm cảnh",
+        "Culinary": "Ẩm thực",
+        "Local_Food": "Ẩm thực địa phương",
+        "Photography": "Check-in",
+        "Cultural": "Văn hóa",
+        "Adventure": "Phiêu lưu",
+        "Romantic": "Lãng mạn",
+        "Budget_Friendly": "Tiết kiệm",
+        "Luxury": "Nghỉ dưỡng",
+        "Family": "Gia đình",
+        "City Center": "Trung tâm",
+        "Tuyen Lam": "Tuyền Lâm"
+      };
+
+      tbody.innerHTML = pois.map(p => {
+        let badgeClass = "badge-attr";
+        let typeName = "Tham quan";
+        if (p.type === "Restaurant") { badgeClass = "badge-rest"; typeName = "Ăn uống"; }
+        if (p.type === "Café") { badgeClass = "badge-cafe"; typeName = "Cà phê"; }
+        if (p.type === "Accommodation") { badgeClass = "badge-hotel"; typeName = "Lưu trú"; }
+
+        let weatherIcon = "🌤️ Cả hai";
+        if (p.weather_suitability === "Indoor") weatherIcon = "🏛️ Trong nhà";
+        if (p.weather_suitability === "Outdoor") weatherIcon = "🏞️ Ngoài trời";
+
+        const priceText = (p.avg_price || 0) > 0 ? Number(p.avg_price).toLocaleString('vi-VN') + " ₫" : "Miễn phí";
+        const cleanVibes = p.vibes ? Array.from(new Set(p.vibes.map(v => vibeMap[v] || v))).slice(0, 3).join(', ') : '';
+
+        return `
+          <tr>
+            <td style="text-align:center; font-weight:700; color:var(--slate-400); font-size:12px;">#${p.stt}</td>
+            <td>
+              <strong style="color:var(--slate-900); font-size:13.5px;">${p.name}</strong>
+              ${cleanVibes ? `<div style="font-size:11px; color:var(--slate-400); margin-top:2px;">Tags: ${cleanVibes}</div>` : ''}
+            </td>
+            <td><span class="badge-pill ${badgeClass}">${typeName}</span></td>
+            <td><span style="font-weight:600; font-size:13px;">${p.area || 'Trung tâm'}</span></td>
+            <td style="font-size:12.5px; white-space:nowrap;">${weatherIcon}</td>
+            <td style="text-align:right; font-family:var(--font-mono); font-weight:700; color:var(--slate-900);">${priceText}</td>
+            <td style="text-align:center; font-weight:700; color:#d97706; font-size:13px;">⭐ ${p.rating || '4.5'}</td>
+            <td style="font-size:12px; color:var(--slate-500); max-width:260px; line-height:1.4;">${p.new_address || p.old_address || '—'}</td>
+            <td style="text-align:center;">
+              <button type="button" class="btn btn-danger btn-sm" onclick="handleDeletePoi('${currentCity}', ${p.stt})" aria-label="Xóa địa điểm ${p.name}">
+                Xóa
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Tìm kiếm và lọc bảng trực tiếp
+    window.handlePoiSearch = function() {
+      const q = (document.getElementById("poiSearchInput").value || "").trim().toLowerCase();
+      const typeFilter = document.getElementById("typeFilterSelect").value;
+
+      const filtered = allCurrentPois.filter(p => {
+        const matchesQuery = !q || (p.name && p.name.toLowerCase().includes(q)) || (p.area && p.area.toLowerCase().includes(q)) || (p.new_address && p.new_address.toLowerCase().includes(q));
+        const matchesType = typeFilter === "ALL" || p.type === typeFilter;
+        return matchesQuery && matchesType;
+      });
+
+      renderTableRows(filtered);
+    };
+
+    // Modal controls
+    window.openAddModal = function() {
+      document.getElementById("modal-city").value = currentCity;
+      document.getElementById("addPoiModal").style.display = "grid";
+      document.getElementById("modal-name").focus();
+    };
+
+    window.closeAddModal = function() {
+      document.getElementById("addPoiModal").style.display = "none";
+    };
+
+    // Đóng modal khi click ra ngoài hoặc phím Escape
+    document.getElementById("addPoiModal").addEventListener("click", function(e) {
+      if (e.target === this) closeAddModal();
+    });
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape" && document.getElementById("addPoiModal").style.display === "grid") {
+        closeAddModal();
+      }
+    });
+
+    // Form submit thêm POI
+    document.getElementById("addPoiForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const city = document.getElementById("modal-city").value;
+      const payload = {
+        city: city,
+        name: document.getElementById("modal-name").value,
+        type: document.getElementById("modal-type").value,
+        area: document.getElementById("modal-area").value || "Trung tâm",
+        weather_suitability: document.getElementById("modal-weather").value,
+        avg_price: parseFloat(document.getElementById("modal-price").value) || 0,
+        lat: parseFloat(document.getElementById("modal-lat").value),
+        lng: parseFloat(document.getElementById("modal-lng").value),
+        new_address: document.getElementById("modal-address").value,
+        vibes: document.getElementById("modal-vibes").value.split(",").map(v => v.trim()).filter(Boolean)
+      };
+
+      try {
+        const res = await fetch("/api/manager/pois", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert(`✅ ${data.message}`);
+          closeAddModal();
+          document.getElementById("addPoiForm").reset();
+          if (currentCity !== city) switchCity(city);
+          else loadPoisTable();
+          loadAnalytics();
+        } else {
+          alert(`❌ Lỗi: ${data.detail || "Không thể thêm địa điểm mới"}`);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối máy chủ");
+      }
+    });
+
+    // Xóa POI
+    window.handleDeletePoi = async function(city, stt) {
+      if (!confirm(`Bạn có chắc muốn xóa địa điểm STT #${stt} khỏi danh mục ${city}? Thao tác này sẽ cập nhật cơ sở dữ liệu.`)) return;
+      try {
+        const res = await fetch(`/api/manager/pois/${encodeURIComponent(city)}/${stt}`, {
+          method: "DELETE"
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert(data.message);
+          loadPoisTable();
+          loadAnalytics();
+        } else {
+          alert(data.detail);
+        }
+      } catch (err) {
+        alert("Lỗi kết nối khi xóa");
+      }
+    };
+
+    // Khởi chạy ban đầu
+    loadAnalytics();
+    loadPoisTable();
+  </script>
+</body>
+</html>

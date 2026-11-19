@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài Khoản | Travel Planner</title>
+  
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%230284c7%22 stroke-width=%222%22><path d=%22m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z%22/><path d=%22m11.1 14.3 3.6-4.4%22/></svg>">
+
+  <style>
+    .dash-wrapper {
+      width: 100%;
+      max-width: none;
+      box-sizing: border-box;
+      margin: 28px 0 60px;
+      padding: 0 28px;
+    }
+
+    @media (max-width: 768px) {
+      .dash-wrapper {
+        padding: 0 16px;
+        margin: 20px 0 40px;
+      }
+    }
+
+    /* Profile Welcome Card */
+    .profile-hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .profile-left-col {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    .dash-avatar-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--brand-600);
+      color: #fff;
+      font-size: 26px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .profile-info {
+      min-width: 0;
+    }
+
+    .profile-info h1 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+      word-break: break-word;
+    }
+
+    .profile-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge-session-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: #ecfdf5;
+      color: #047857;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      border: 1px solid #a7f3d0;
+    }
+
+    .profile-email-txt {
+      color: var(--slate-500);
+      font-size: 13.5px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      word-break: break-all;
+    }
+
+    /* Primary Action Cards Grid (Placed Above Stats) */
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 900px) {
+      .action-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .action-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      flex-direction: column;
+      transition: all var(--transition-fast);
+    }
+
+    .action-card:hover {
+      box-shadow: var(--shadow-sm);
+      border-color: var(--brand-300);
+    }
+
+    .action-card-header {
+      margin-bottom: 12px;
+    }
+
+    .action-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-lg);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .icon-blue { background: #e0f2fe; color: #0284c7; }
+    .icon-green { background: #dcfce7; color: #15803d; }
+    .icon-purple { background: #f3e8ff; color: #7e22ce; }
+
+    .action-card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 6px;
+    }
+
+    .action-card-desc {
+      font-size: 13.5px;
+      color: var(--slate-600);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      flex: 1; /* Pushes button to bottom so they align */
+    }
+
+    .action-btn-link {
+      width: 100%;
+      margin-top: auto;
+    }
+
+    /* Section Subhead */
+    .dash-section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Explainer Box */
+    .ct-summary-box {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      margin-top: 32px;
+    }
+
+    .ct-pill-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .ct-pill-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .ct-pill-grid { grid-template-columns: 1fr; }
+    }
+
+    .ct-pill-card {
+      background: var(--slate-50);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .ct-pill-card h4 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 4px;
+    }
+
+    .ct-pill-card p {
+      font-size: 12px;
+      color: var(--slate-600);
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIFIED APP NAVBAR -->
+  <header class="app-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon-box" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z"/>
+            <path d="m11.1 14.3 3.6-4.4"/>
+          </svg>
+        </div>
+        <span>Travel Planner</span>
+      </a>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="nav-toggle-btn" aria-label="Mở menu điều hướng" aria-expanded="false" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Nav Links -->
+      <nav class="nav-links-wrap" aria-label="Điều hướng chính">
+        <a href="index.html" class="nav-item">Trang chủ</a>
+        <a href="planner.html" class="nav-item" data-nav="planner">Lập lịch trình</a>
+        <a href="survey.html" class="nav-item" data-nav="survey">Đánh giá</a>
+        <a href="manager.html" id="nav-manager-link" class="nav-item" data-nav="manager" style="display:none;">Quản lý địa điểm</a>
+        <a href="dashboard.html" class="nav-item active" data-nav="dashboard" aria-current="page">Tài khoản</a>
+        <a href="login.html" id="nav-auth-link" class="btn btn-primary btn-sm">Đăng nhập</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="dash-wrapper animate-fade-in" id="dashboard-page">
+    
+    <!-- USER PROFILE WELCOME CARD -->
+    <div class="profile-hero-card">
+      <div class="profile-left-col">
+        <div id="dash-avatar" class="dash-avatar-circle" aria-hidden="true">U</div>
+        <div class="profile-info">
+          <div class="profile-meta-row" style="margin-bottom:4px;">
+            <span id="dash-role-badge" class="badge-session-pill">● Phiên đăng nhập: Du khách</span>
+          </div>
+          <h1>Chào mừng trở lại, <span id="dash-name">Khách du lịch</span>!</h1>
+          <p class="profile-email-txt">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            <span id="dash-email">email@example.com</span>
+          </p>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; align-items:center;">
+        <button type="button" id="btn-logout" class="btn btn-secondary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
+          </svg>
+          Đăng xuất
+        </button>
+      </div>
+    </div>
+
+    <!-- PRIMARY ACTION CARDS (PLACED FIRST) -->
+    <h2 class="dash-section-title">
+      <span>🚀</span> Thao tác chuyến đi
+    </h2>
+
+    <div class="action-grid">
+      
+      <!-- CARD 1: PLANNER -->
+      <div class="action-card">
+        <div class="action-card-header">
+          <div class="action-icon-box icon-blue">🗺️</div>
+          <h3 class="action-card-title">Lập lịch trình mới</h3>
+        </div>
+        <p class="action-card-desc">
+          Tối ưu chi phí theo trần ngân sách, trực quan hóa tuyến đường trên bản đồ tương tác và linh hoạt tráo đổi điểm tham quan khi gặp trời mưa.
+        </p>
+        <a href="planner.html" class="btn btn-primary action-btn-link">
+          Lập lịch trình ngay →
+        </a>
+      </div>
+
+      <!-- CARD 2: SURVEY -->
+      <div class="action-card">
+        <div class="action-card-header">
+          <div class="action-icon-box icon-green">📝</div>
+          <h3 class="action-card-title">Đánh giá lịch trình</h3>
+        </div>
+        <p class="action-card-desc">
+          Chia sẻ cảm nhận và mức độ hài lòng của bạn qua biểu mẫu 10 câu hỏi để giúp hệ thống không ngừng hoàn thiện chất lượng gợi ý.
+        </p>
+        <a href="survey.html" class="btn btn-secondary action-btn-link">
+          Thực hiện đánh giá →
+        </a>
+      </div>
+
+      <!-- CARD 3: MANAGER -->
+      <div class="action-card" id="dash-manager-card">
+        <div class="action-card-header">
+          <div class="action-icon-box icon-purple">⚙️</div>
+          <h3 class="action-card-title">Quản lý địa điểm</h3>
+        </div>
+        <p class="action-card-desc">
+          Xem thống kê thời gian thực, tìm kiếm, lọc theo loại hình và cập nhật danh mục điểm đến cho Đà Lạt & Nha Trang.
+        </p>
+        <a href="manager.html" id="dash-manager-link" class="btn btn-secondary action-btn-link" style="display:none;">
+          Mở trang quản lý →
+        </a>
+        <div id="dash-manager-restricted" style="display:block; font-size:12.5px; color:var(--slate-500); text-align:center; padding:10px 12px; background:var(--slate-50); border-radius:var(--radius-md); margin-top:auto;">
+          🔒 Dành cho tài khoản Quản trị viên
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECONDARY STATS (SYSTEM SNAPSHOT) -->
+    <h2 class="dash-section-title">
+      <span>📊</span> Tổng quan dữ liệu hệ thống
+    </h2>
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <span class="metric-label">Điểm đến hỗ trợ</span>
+        <span class="metric-val brand">Đà Lạt & Nha Trang</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Cơ sở dữ liệu địa điểm</span>
+        <span class="metric-val green">64 địa điểm tuyển chọn</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Cơ chế tối ưu hóa</span>
+        <span class="metric-val purple">Chi phí & khoảng cách</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Thang đo khảo sát</span>
+        <span class="metric-val">1 – 5 sao (Likert)</span>
+      </div>
+    </div>
+
+    <!-- 4 PILLARS SUMMARY -->
+    <div class="ct-summary-box">
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+        <h3 style="font-size:15px; font-weight:800; color:var(--slate-900);">
+          Ứng dụng 4 trụ cột Tư duy tính toán
+        </h3>
+        <span style="font-size:12px; color:var(--slate-500); font-weight:600;">Đề tài CSC10014 · Nhóm 02</span>
+      </div>
+
+      <div class="ct-pill-grid">
+        <div class="ct-pill-card">
+          <h4>Phân rã</h4>
+          <p>Tách bài toán chuyến đi thành 5 phân nhóm chi phí và lịch trình từng ngày khoa học.</p>
+        </div>
+        <div class="ct-pill-card">
+          <h4>Nhận diện mẫu</h4>
+          <p>Áp dụng tỷ lệ phân bổ ngân sách tối ưu và gom cụm không gian giảm di chuyển vòng quanh.</p>
+        </div>
+        <div class="ct-pill-card">
+          <h4>Trừu tượng hóa</h4>
+          <p>Mô hình hóa thông tin địa điểm theo tọa độ, giá vé và điều kiện thời tiết trong nhà / ngoài trời.</p>
+        </div>
+        <div class="ct-pill-card">
+          <h4>Thiết kế giải thuật</h4>
+          <p>Tính cự ly địa lý, đối sánh mức độ phù hợp sở thích và xử lý thích ứng thời tiết linh hoạt.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- UNIFIED FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div>
+        <strong>Travel Planner</strong> · Đề tài Tư duy tính toán (CSC10014) · Nhóm 02
+      </div>
+      <div style="display:flex; gap:16px;">
+        <a href="planner.html">Lập lịch trình</a>
+        <a href="survey.html">Đánh giá</a>
+        <a href="terms.html">Điều khoản</a>
+        <a href="privacy.html">Bảo mật</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initGlobalNav } from "./js/nav.js?v=8";
+    import { SessionStorage, AuthAPI } from "./js/api.js?v=8";
+
+    initGlobalNav("dashboard");
+
+    const token = SessionStorage.getToken();
+    if (!token) {
+      window.location.href = "login.html";
+    }
+
+    const user = SessionStorage.getUser();
+    if (user) {
+      document.getElementById("dash-name").textContent = user.name || "Khách du lịch";
+      document.getElementById("dash-email").textContent = user.email || "";
+      document.getElementById("dash-avatar").textContent = (user.name || "U").trim().charAt(0).toUpperCase();
+
+      if (user.role === "manager") {
+        const mgrLink = document.getElementById("dash-manager-link");
+        if (mgrLink) mgrLink.style.display = "inline-flex";
+        const restrictedNotice = document.getElementById("dash-manager-restricted");
+        if (restrictedNotice) restrictedNotice.style.display = "none";
+
+        const badge = document.getElementById("dash-role-badge");
+        if (badge) {
+          badge.textContent = "● Vai trò: Quản trị viên (Manager)";
+          badge.style.background = "#f5f3ff";
+          badge.style.color = "#7c3aed";
+          badge.style.borderColor = "#ddd6fe";
+        }
+      }
+    }
+
+    // Logout handling
+    document.getElementById("btn-logout")?.addEventListener("click", async () => {
+      try {
+        await AuthAPI.logout();
+      } finally {
+        SessionStorage.clear();
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+</body>
+</html>

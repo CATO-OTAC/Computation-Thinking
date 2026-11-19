@@ -1,0 +1,85 @@
+{
+  "users": [
+    {
+      "id": "usr_eb4b74b1d4f9",
+      "name": "Khách Du Lịch Demo",
+      "email": "demo_traveler@travelplanner.vn",
+      "role": "traveler",
+      "hashed_password": "pbkdf2_sha256$100000$3fda36bf2282d213f30ca4f567b0129e$87089f865093fea448dae6f0dd70c8faf4dd7e9c6fefa1e204a203f1f0642ee2",
+      "created_at": "2026-11-18T18:09:28.534487+00:00",
+      "updated_at": "2026-11-18T18:09:28.534487+00:00"
+    },
+    {
+      "id": "usr_b426ae5d371b",
+      "name": "Quản Trị Viên Demo",
+      "email": "demo_manager@travelplanner.vn",
+      "role": "manager",
+      "hashed_password": "pbkdf2_sha256$100000$92dac71a5ca89f238205d15af23e966e$c63d4a1fd327259f5ac4d5d48c45a7dc2a2e2b2e9b1ffd5afe4580a3df59976c",
+      "created_at": "2026-11-18T18:09:28.548814+00:00",
+      "updated_at": "2026-11-18T18:09:28.548814+00:00"
+    }
+  ],
+  "sessions": [
+    {
+      "token": "dzt6yJHNUP-m0wjuyKnZUt7yuUcfEmKf4XjeoBXycLE",
+      "user_id": "usr_eb4b74b1d4f9",
+      "expires_at": "2026-11-25T18:09:28.535093+00:00",
+      "created_at": "2026-11-18T18:09:28.535154+00:00"
+    },
+    {
+      "token": "rlyCDHdnTOFhV1Go_b_BoY6SzItDU_78Ysi7H14z254",
+      "user_id": "usr_b426ae5d371b",
+      "expires_at": "2026-11-25T18:09:28.549228+00:00",
+      "created_at": "2026-11-18T18:09:28.549280+00:00"
+    },
+    {
+      "token": "zkZPkui853v-ggoVRQNSrDdS4CKMM3cSDFgmtNu6eqk",
+      "user_id": "usr_b426ae5d371b",
+      "expires_at": "2026-11-25T18:12:49.831334+00:00",
+      "created_at": "2026-11-18T18:12:49.831538+00:00"
+    },
+    {
+      "token": "bRdq4R88Qxckr8quQScozBxGAL9jPOootUDKnkLejXE",
+      "user_id": "usr_b426ae5d371b",
+      "expires_at": "2026-11-25T18:13:09.030680+00:00",
+      "created_at": "2026-11-18T18:13:09.030886+00:00"
+    },
+    {
+      "token": "MjAShmfa8JxkUpxt17HMnCLPwFLYlyzHCBZuPJB_oAE",
+      "user_id": "usr_b426ae5d371b",
+      "expires_at": "2026-11-25T18:43:51.050124+00:00",
+      "created_at": "2026-11-18T18:43:51.050370+00:00"
+    },
+    {
+      "token": "Xu1dzTx6m0cf_N60JWGPtglydiK2WUVFm28HOLodV1U",
+      "user_id": "usr_b426ae5d371b",
+      "expires_at": "2026-11-25T18:51:39.823010+00:00",
+      "created_at": "2026-11-18T18:51:39.823234+00:00"
+    },
+    {
+      "token": "VzOk3mLFypAtnV7CrpnrvYFLcw8MXzIEg3Ccz1opTlA",
+      "user_id": "usr_eb4b74b1d4f9",
+      "expires_at": "2026-11-25T19:00:54.353544+00:00",
+      "created_at": "2026-11-18T19:00:54.353647+00:00"
+    },
+    {
+      "token": "wZa6ZTSspBa6jCpFTyI9lRdWJ0DJwOwDVsvUrIXhfjA",
+      "user_id": "usr_b426ae5d371b",
+      "expires_at": "2026-11-25T19:32:00.185690+00:00",
+      "created_at": "2026-11-18T19:32:00.185940+00:00"
+    },
+    {
+      "token": "mHgt2jqIBgz_b6xwqT9BRryRwr8BrThrThQCFgZmfhs",
+      "user_id": "usr_b426ae5d371b",
+      "expires_at": "2026-11-26T14:31:26.871504+00:00",
+      "created_at": "2026-11-19T14:31:26.871751+00:00"
+    },
+    {
+      "token": "QT4E50ctrUhYnNcBCu5s85gHQpkjolrrsBNFGlOvk8Q",
+      "user_id": "usr_eb4b74b1d4f9",
+      "expires_at": "2026-11-26T14:45:40.147366+00:00",
+      "created_at": "2026-11-19T14:45:40.147452+00:00"
+    }
+  ],
+  "reset_tokens": []
+}

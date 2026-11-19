@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tạo tài khoản | Travel Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/auth.css?v=7">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%231769e0%22 stroke-width=%222%22><path d=%22m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z%22/><path d=%22m11.1 14.3 3.6-4.4%22/></svg>">
+</head>
+<body>
+  <main class="app-shell" data-frame-name="Authentication / register">
+    <!-- Panel Trái: Hình ảnh trực quan bờ biển xanh Unsplash -->
+    <aside class="visual-panel" aria-label="Cảm hứng du lịch">
+      <img
+        src="https://images.unsplash.com/photo-1504681869696-d977211a5f4c?crop=entropy&amp;cs=tinysrgb&amp;fit=crop&amp;fm=jpg&amp;q=88&amp;w=1600"
+        alt="Bờ biển xanh nhìn từ trên cao"
+        fetchpriority="high"
+      >
+      <div class="image-wash"></div>
+      <div class="visual-top">
+        <a href="login.html" class="brand" aria-label="Travel Planner">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="m11.1 14.3 3.6-4.4" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </span>
+          <span>Travel <strong>Planner</strong></span>
+        </a>
+      </div>
+      <div class="visual-copy">
+        <p class="eyebrow">HÀNH TRÌNH BẮT ĐẦU TỪ ĐÂY</p>
+        <h2>Lên kế hoạch dễ dàng.<br>Tận hưởng trọn vẹn.</h2>
+        <p>Từ lịch trình đến những trải nghiệm đáng nhớ — mọi chuyến đi của bạn đều được chuẩn bị chu đáo.</p>
+        <div class="trust-note">
+          <span>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="m5 10 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <p>
+            <strong>Hơn 25.000 hành trình</strong><br>
+            đã được tạo cùng Travel Planner
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Panel Phải: Biểu mẫu xác thực -->
+    <section class="auth-panel" aria-label="Biểu mẫu đăng ký tài khoản">
+      <header class="mobile-header">
+        <a href="login.html" class="brand" aria-label="Travel Planner">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="m4 13.5 16-9-6.8 15-2.1-5.2L4 13.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="m11.1 14.3 3.6-4.4" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </span>
+          <span>Travel <strong>Planner</strong></span>
+        </a>
+      </header>
+
+      <div class="form-container">
+        <div class="form-view compact">
+          <div class="heading-block">
+            <span class="mini-kicker">BẮT ĐẦU HÀNH TRÌNH</span>
+            <h1>Tạo tài khoản</h1>
+            <p>Lưu trữ và quản lý mọi kế hoạch du lịch của bạn.</p>
+          </div>
+
+          <div id="register-alert" class="alert-banner hidden"></div>
+
+          <div id="register-success-notice" class="notice success-notice hidden" role="status">
+            <span class="notice-icon">
+              <svg viewBox="0 0 20 20" fill="none">
+                <path d="m5 10 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <div>
+              <strong>Tài khoản đã được tạo!</strong>
+              <p>Bạn có thể đăng nhập ngay để bắt đầu hành trình.</p>
+              <a href="login.html" class="notice-link">Đến đăng nhập</a>
+            </div>
+          </div>
+
+          <form id="form-register" novalidate>
+            <div class="field-group">
+              <label for="register-name">Họ và tên</label>
+              <div class="input-wrap">
+                <input
+                  type="text"
+                  id="register-name"
+                  name="name"
+                  placeholder="Nguyễn Minh Anh"
+                  autocomplete="name"
+                  required
+                  aria-describedby="register-name-error"
+                >
+              </div>
+              <p id="register-name-error" class="field-error" role="alert"></p>
+            </div>
+
+            <div class="field-group">
+              <label for="register-email">Email</label>
+              <div class="input-wrap">
+                <input
+                  type="email"
+                  id="register-email"
+                  name="email"
+                  placeholder="ban@example.com"
+                  autocomplete="email"
+                  required
+                  aria-describedby="register-email-error"
+                >
+              </div>
+              <p id="register-email-error" class="field-error" role="alert"></p>
+            </div>
+
+            <div class="two-fields">
+              <div class="field-group">
+                <label for="register-password">Mật khẩu</label>
+                <div class="input-wrap has-eye">
+                  <input
+                    type="password"
+                    id="register-password"
+                    name="password"
+                    placeholder="Tối thiểu 8 ký tự"
+                    autocomplete="new-password"
+                    required
+                    aria-describedby="register-password-error"
+                  >
+                  <button
+                    type="button"
+                    class="eye-button"
+                    data-target="register-password"
+                    aria-label="Hiện mật khẩu"
+                    title="Hiện mật khẩu"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
+                <p id="register-password-error" class="field-error" role="alert"></p>
+              </div>
+
+              <div class="field-group">
+                <label for="register-confirm">Xác nhận mật khẩu</label>
+                <div class="input-wrap has-eye">
+                  <input
+                    type="password"
+                    id="register-confirm"
+                    name="confirm_password"
+                    placeholder="Nhập lại mật khẩu"
+                    autocomplete="new-password"
+                    required
+                    aria-describedby="register-confirm-error"
+                  >
+                  <button
+                    type="button"
+                    class="eye-button"
+                    data-target="register-confirm"
+                    aria-label="Hiện mật khẩu"
+                    title="Hiện mật khẩu"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
+                <p id="register-confirm-error" class="field-error" role="alert"></p>
+              </div>
+            </div>
+
+            <p class="password-hint">Dùng ít nhất 8 ký tự, gồm chữ hoa, chữ thường và số.</p>
+
+            <div class="requirements" id="register-requirements" aria-label="Điều kiện mật khẩu">
+              <p>Mật khẩu của bạn cần:</p>
+              <div class="requirement-grid">
+                <span data-rule="length" aria-checked="false">
+                  <svg viewBox="0 0 20 20" fill="none"><path d="m5 10 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  Ít nhất 8 ký tự
+                </span>
+                <span data-rule="digit" aria-checked="false">
+                  <svg viewBox="0 0 20 20" fill="none"><path d="m5 10 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  Có ít nhất một chữ số
+                </span>
+                <span data-rule="casing" aria-checked="false">
+                  <svg viewBox="0 0 20 20" fill="none"><path d="m5 10 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  Có chữ hoa và chữ thường
+                </span>
+              </div>
+            </div>
+
+            <div class="field-group terms">
+              <label class="check-label" for="register-terms">
+                <input type="checkbox" id="register-terms" name="terms" required>
+                <span class="custom-check" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" fill="none">
+                    <path d="m5 10 3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span>
+                  Tôi đồng ý với <button type="button" class="terms-reference-btn" data-open-modal="modal-terms">Điều khoản sử dụng</button> và <button type="button" class="terms-reference-btn" data-open-modal="modal-privacy">Chính sách quyền riêng tư</button>.
+                </span>
+              </label>
+            </div>
+
+            <button type="submit" id="btn-register-submit" class="primary-button" disabled title="Vui lòng tích chọn đồng ý điều khoản để kích hoạt tạo tài khoản">
+              Tạo tài khoản
+            </button>
+          </form>
+
+          <p class="switch-copy">
+            Đã có tài khoản? <a href="login.html" class="text-link">Đăng nhập</a>
+          </p>
+        </div>
+      </div>
+
+      <p class="footer-copy">© 2025 Travel Planner · Bảo mật &amp; riêng tư</p>
+    </section>
+  </main>
+
+  <!-- Modal 1: Điều khoản sử dụng -->
+  <div id="modal-terms" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-terms-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-terms-title">Điều khoản sử dụng</h2>
+        <button type="button" class="modal-close-btn" data-close-modal aria-label="Đóng">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>1. Giới thiệu dịch vụ</h3>
+        <p>Travel Planner Assistant là trợ lý ảo hỗ trợ người dùng lập kế hoạch du lịch thông minh, tối ưu hóa điểm tham quan và cân đối ngân sách. Bằng việc đăng ký tài khoản, bạn đồng ý với các điều khoản dưới đây.</p>
+        
+        <h3>2. Trách nhiệm người dùng</h3>
+        <ul>
+          <li>Cung cấp thông tin đăng ký chính xác (tên, email hợp lệ).</li>
+          <li>Bảo mật mật khẩu và không chia sẻ tài khoản cho người khác.</li>
+          <li>Không sử dụng công cụ tự động tấn công hoặc làm gián đoạn máy chủ.</li>
+        </ul>
+
+        <h3>3. Lịch trình và Dữ liệu gợi ý</h3>
+        <p>Các đề xuất về hành trình, chi phí và thời gian tham quan mang tính chất hỗ trợ tính toán dựa trên dữ liệu tại thời điểm lập lịch. Bạn nên kiểm tra lại thông tin thực tế của điểm đến trước chuyến đi.</p>
+
+        <h3>4. Quyền sở hữu trí tuệ</h3>
+        <p>Mã nguồn, thuật toán tối ưu hóa lịch trình và giao diện ứng dụng thuộc bản quyền của Travel Planner Assistant (Group 02).</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="primary-button" data-close-modal style="width: auto; padding: 0 24px; min-height: 42px;">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Chính sách quyền riêng tư -->
+  <div id="modal-privacy" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-privacy-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-privacy-title">Chính sách quyền riêng tư</h2>
+        <button type="button" class="modal-close-btn" data-close-modal aria-label="Đóng">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>1. Cam kết an toàn thông tin</h3>
+        <p>Chúng tôi coi trọng việc bảo mật dữ liệu của bạn. Toàn bộ thông tin cá nhân đều được lưu trữ an toàn và không bao giờ chia sẻ cho bên thứ ba vì mục đích thương mại.</p>
+
+        <h3>2. Dữ liệu thu thập</h3>
+        <ul>
+          <li><strong>Họ tên & Email:</strong> Dùng để định danh và gửi thông tin khôi phục mật khẩu.</li>
+          <li><strong>Mật khẩu:</strong> Băm mã hóa một chiều chuẩn bảo mật PBKDF2-SHA256 kèm salt ngẫu nhiên, không thể dịch ngược.</li>
+          <li><strong>Lịch trình chuyến đi:</strong> Dùng để chạy thuật toán gợi ý điểm đến và tính toán chi phí.</li>
+        </ul>
+
+        <h3>3. Quyền của bạn</h3>
+        <p>Bạn có toàn quyền xem, sửa thông tin cá nhân trên trang Bảng điều khiển hoặc yêu cầu xóa dữ liệu chuyến đi bất kỳ lúc nào.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="primary-button" data-close-modal style="width: auto; padding: 0 24px; min-height: 42px;">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/auth.js?v=7"></script>
+</body>
+</html>
