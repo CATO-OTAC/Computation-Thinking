@@ -145,5 +145,22 @@ class TestComputationalThinkingSystem(unittest.TestCase):
         res_del = self.client.delete(f"/api/manager/pois/Nha Trang/{created_stt}")
         self.assertEqual(res_del.status_code, 200)
 
+    def test_tc08_reverse_geocode_and_location_resolution(self):
+        """TC08: Trích xuất tọa độ từ link Google Maps và Reverse Geocoding lấy địa chỉ thực tế."""
+        # 1. Trích xuất tọa độ từ link Google Maps chứa !3d và !4d
+        gmaps_url = "https://www.google.com/maps/place/Dalat+Wonder+Resort/@11.8973,108.4168,17z/data=!3m1!4b1!4m6!3m5!1s0x317112dc26a0b22f:0xb9da544dcfd34200!8m2!3d11.8973!4d108.4168"
+        res = self.client.get(f"/api/manager/resolve-location?query={gmaps_url}&city=Đà Lạt")
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertTrue(data.get("success"))
+        self.assertAlmostEqual(data.get("lat"), 11.8973, places=3)
+        self.assertAlmostEqual(data.get("lng"), 108.4168, places=3)
+
+        # 2. Reverse Geocode endpoint
+        res_geo = self.client.get("/api/manager/reverse-geocode?lat=11.9392&lng=108.4375")
+        self.assertEqual(res_geo.status_code, 200)
+        data_geo = res_geo.json()
+        self.assertIn("address", data_geo)
+
 if __name__ == "__main__":
     unittest.main()
