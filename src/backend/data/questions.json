@@ -60,13 +60,13 @@
     "text": "Bạn có sẵn sàng tiếp tục sử dụng ứng dụng trong tương lai không?",
     "tag": "Retention",
     "group": "Nhóm 3: Mức độ hài lòng của người dùng",
-    "options": ["Chắc chắn không", "Có lẽ không", "Chưa chắc chắn", "Có thể", "Chắc chắn có"]
+    "options": ["Chắc chắn không", "Có lẽ không", "Chưa chắc chắn", "Có thể có", "Chắc chắn có"]
   },
   {
     "id": "Q10",
     "text": "Bạn có sẵn sàng giới thiệu ứng dụng cho người khác không?",
     "tag": "Recommendation",
     "group": "Nhóm 3: Mức độ hài lòng của người dùng",
-    "options": ["Chắc chắn không", "Có lẽ không", "Chưa chắc chắn", "Có thể", "Chắc chắn có"]
+    "options": ["Chắc chắn không", "Có lẽ không", "Chưa chắc chắn", "Có thể có", "Chắc chắn có"]
   }
 ]
