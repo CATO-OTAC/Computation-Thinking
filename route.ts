@@ -1,83 +1,95 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db/prisma";
 import { getSessionUser } from "@/lib/auth";
+import { prisma } from "@/lib/db/prisma";
+import { submitReviewAndUpdateLoop } from "@/lib/modules/moduleF-feedback";
 
-export async function GET() {
-  const user = await getSessionUser();
-  if (!user || user.role !== "MANAGER") {
-    return NextResponse.json({ error: "Manager access required" }, { status: 403 });
+const SURVEY_QUESTIONS: Record<string, string> = {
+  Q1: "UI",
+  Q2: "Performance",
+  Q3: "Input_Usability",
+  Q4: "Destination",
+  Q5: "Schedule",
+  Q6: "Rest_Time",
+  Q7: "Cost",
+  Q8: "Satisfaction",
+  Q9: "Retention",
+  Q10: "Recommendation",
+};
+
+export async function POST(req: Request) {
+  try {
+    const user = await getSessionUser();
+    if (!user) return NextResponse.json({ error: "Vui lòng đăng nhập." }, { status: 401 });
+
+    const body = await req.json();
+
+    // Structured post-trip survey: persist answers as Review rows, reusing the existing table.
+    if (Array.isArray(body.answers)) {
+      const tripId = String(body.tripId || "");
+      const answers = body.answers as Array<{ questionId: string; tag: string; score: number; answerText?: string }>;
+      if (!tripId || answers.length !== 10) {
+        return NextResponse.json({ error: "Khảo sát phải có đủ 10 câu trả lời." }, { status: 400 });
+      }
+
+      const seen = new Set<string>();
+      for (const answer of answers) {
+        const expectedTag = SURVEY_QUESTIONS[answer.questionId];
+        if (!expectedTag || expectedTag !== answer.tag || !Number.isInteger(answer.score) || answer.score < 1 || answer.score > 5 || seen.has(answer.questionId)) {
+          return NextResponse.json({ error: "Dữ liệu câu trả lời không hợp lệ." }, { status: 400 });
+        }
+        seen.add(answer.questionId);
+      }
+      if (seen.size !== 10) return NextResponse.json({ error: "Thiếu câu trả lời khảo sát." }, { status: 400 });
+
+      const trip = await prisma.trip.findUnique({ where: { id: tripId }, select: { userId: true } });
+      if (!trip) return NextResponse.json({ error: "Không tìm thấy chuyến đi." }, { status: 404 });
+      if (trip.userId !== user.userId) return NextResponse.json({ error: "Bạn chỉ có thể đánh giá chuyến đi của mình." }, { status: 403 });
+
+      const existing = await prisma.review.findFirst({
+        where: { tripId, userId: user.userId, aspectLabel: { startsWith: "SURVEY_" } },
+        select: { id: true },
+      });
+      if (existing) return NextResponse.json({ error: "Bạn đã gửi khảo sát cho chuyến đi này rồi." }, { status: 409 });
+
+      await prisma.$transaction([
+        ...answers.map((answer) => prisma.review.create({
+          data: {
+            tripId,
+            userId: user.userId,
+            poiId: null,
+            rating: answer.score,
+            comment: `${answer.questionId}: ${String(answer.answerText || "").slice(0, 300)}`,
+            aspectLabel: `SURVEY_${answer.questionId}_${answer.tag}`,
+            sentiment: answer.score >= 4 ? "POSITIVE" : answer.score <= 2 ? "NEGATIVE" : "NEUTRAL",
+          },
+        })),
+      ]);
+
+      return NextResponse.json({ success: true, message: "Đã lưu khảo sát gồm 10 câu trả lời." });
+    }
+
+    // Keep the original review endpoint behavior for existing POI / trip reviews.
+    const { tripId, poiId, rating, comment, aspectLabel } = body;
+    const numericRating = Number(rating);
+    if (!tripId || !Number.isInteger(numericRating) || numericRating < 1 || numericRating > 5) {
+      return NextResponse.json({ error: "Valid tripId and rating (1-5) required." }, { status: 400 });
+    }
+    const trip = await prisma.trip.findUnique({
+      where: { id: String(tripId) },
+      select: { userId: true, itineraryItems: { select: { poiId: true } } },
+    });
+    if (!trip) return NextResponse.json({ error: "Trip not found" }, { status: 404 });
+    if (trip.userId !== user.userId) return NextResponse.json({ error: "You can only review your own trips." }, { status: 403 });
+    if (poiId && !trip.itineraryItems.some((item) => item.poiId === poiId)) {
+      return NextResponse.json({ error: "POI is not part of this trip." }, { status: 400 });
+    }
+    const review = await submitReviewAndUpdateLoop({
+      tripId, userId: user.userId, poiId: poiId || null, rating: numericRating,
+      comment: String(comment || "").trim(), aspectLabel: aspectLabel || "OVERALL",
+    });
+    return NextResponse.json({ review });
+  } catch (error) {
+    console.error("POST /api/reviews failed:", error);
+    return NextResponse.json({ error: "Không thể lưu đánh giá. Vui lòng thử lại." }, { status: 500 });
   }
-
-  const [trips, pois, reviews, logs] = await Promise.all([
-    prisma.trip.findMany({ include: { user: { select: { name: true, email: true } } }, orderBy: { createdAt: "desc" } }),
-    prisma.pOI.findMany({ orderBy: { avgRating: "desc" } }),
-    prisma.review.findMany({
-      include: { user: { select: { name: true } }, poi: { select: { name: true } }, trip: { select: { title: true } } },
-      orderBy: { createdAt: "desc" },
-    }),
-    prisma.recommendationLog.findMany({
-      include: { user: { select: { name: true } }, trip: { select: { title: true } } },
-      orderBy: { createdAt: "desc" },
-      take: 30,
-    }),
-  ]);
-
-  const totalTrips = trips.length;
-  const avgBudget = totalTrips ? Math.round(trips.reduce((s, t) => s + t.budgetMaxVnd, 0) / totalTrips) : 0;
-  const avgGroupSize = totalTrips ? Number((trips.reduce((s, t) => s + t.groupSize, 0) / totalTrips).toFixed(1)) : 0;
-  const avgSatisfaction = reviews.length
-    ? Number((reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(2))
-    : 4.8;
-
-  const destinationCounts: Record<string, number> = { DA_LAT: 0, NHA_TRANG: 0, BOTH: 0 };
-  const vibeCounts: Record<string, number> = {};
-  for (const t of trips) {
-    destinationCounts[t.destinationMode] = (destinationCounts[t.destinationMode] || 0) + 1;
-    const vibes: string[] = JSON.parse(t.selectedVibes || "[]");
-    for (const v of vibes) vibeCounts[v] = (vibeCounts[v] || 0) + 1;
-  }
-
-  const sentimentCounts = {
-    POSITIVE: reviews.filter((r) => r.sentiment === "POSITIVE").length,
-    NEUTRAL: reviews.filter((r) => r.sentiment === "NEUTRAL").length,
-    NEGATIVE: reviews.filter((r) => r.sentiment === "NEGATIVE").length,
-  };
-
-  // Survey answers are stored in the existing Review table using SURVEY_Qx_TAG labels.
-  const surveyReviews = reviews.filter((r) => r.aspectLabel.startsWith("SURVEY_Q"));
-  const questionTitles: Record<string, string> = {
-    Q1: "Giao diện ứng dụng", Q2: "Tốc độ phản hồi", Q3: "Thuận tiện khi nhập thông tin",
-    Q4: "Địa điểm phù hợp sở thích", Q5: "Phân bổ thời gian", Q6: "Thời gian nghỉ ngơi",
-    Q7: "Độ chính xác chi phí", Q8: "Hài lòng tổng thể", Q9: "Ý định tiếp tục sử dụng",
-    Q10: "Ý định giới thiệu ứng dụng",
-  };
-  const questionStats = Object.entries(questionTitles).map(([questionId, title]) => {
-    const rows = surveyReviews.filter((r) => r.aspectLabel.startsWith(`SURVEY_${questionId}_`));
-    return { questionId, title, count: rows.length, averageScore: rows.length ? Number((rows.reduce((sum, r) => sum + r.rating, 0) / rows.length).toFixed(2)) : 0 };
-  });
-  const tagStats = Object.entries({ Q1: "UI", Q2: "Performance", Q3: "Input_Usability", Q4: "Destination", Q5: "Schedule", Q6: "Rest_Time", Q7: "Cost", Q8: "Satisfaction", Q9: "Retention", Q10: "Recommendation" }).map(([questionId, tag]) => {
-    const rows = surveyReviews.filter((r) => r.aspectLabel === `SURVEY_${questionId}_${tag}`);
-    return { tag, count: rows.length, averageScore: rows.length ? Number((rows.reduce((sum, r) => sum + r.rating, 0) / rows.length).toFixed(2)) : 0 };
-  });
-  const groupStats = [
-    { group: "Nhóm 1 – Trải nghiệm sử dụng ứng dụng", ids: ["Q1", "Q2", "Q3"] },
-    { group: "Nhóm 2 – Chất lượng gợi ý của ứng dụng", ids: ["Q4", "Q5", "Q6", "Q7"] },
-    { group: "Nhóm 3 – Mức độ hài lòng của người dùng", ids: ["Q8", "Q9", "Q10"] },
-  ].map(({ group, ids }) => {
-    const rows = surveyReviews.filter((r) => ids.some((id) => r.aspectLabel.startsWith(`SURVEY_${id}_`)));
-    return { group, answerCount: rows.length, averageScore: rows.length ? Number((rows.reduce((sum, r) => sum + r.rating, 0) / rows.length).toFixed(2)) : 0 };
-  });
-
-  return NextResponse.json({
-    kpis: { totalTrips, totalPois: pois.length, avgBudget, avgGroupSize, avgSatisfaction, totalReviews: reviews.length },
-    destinationChart: Object.entries(destinationCounts).map(([name, count]) => ({ name, count })),
-    vibesChart: Object.entries(vibeCounts)
-      .map(([vibe, count]) => ({ vibe, count }))
-      .sort((a, b) => b.count - a.count),
-    sentimentChart: Object.entries(sentimentCounts).map(([sentiment, count]) => ({ sentiment, count })),
-    trips,
-    reviews,
-    logs,
-    surveyAnalytics: { totalAnswers: surveyReviews.length, questionStats, tagStats, groupStats },
-  });
 }
